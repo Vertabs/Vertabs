@@ -1,0 +1,21 @@
+{
+	"manifest_version": 2,
+
+	"name": "Vertabs",
+	"version": "0.0.0",
+	"description": "Vertical tabs for tab addicts.",
+	
+	"browser_action": {
+		"default_icon": "icon.png"
+	},
+	
+	"content_scripts": [
+		{
+			"matches": ["http://*/*"],
+			"js": ["vertabs.js"],
+			"css": ["vertabs.css"]
+		}
+	],
+
+	"permissions": ["tabs"]
+}

@@ -1,0 +1,38 @@
+#vertab {
+	position: fixed;
+	left: -280px; top: 20px;
+	width: 300px;
+	box-sizing: border-box;
+
+	padding: 15px;
+	background: #DDD;
+	border: 1px solid #888;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+
+	font-family: sans-serif;
+	color: #222;
+	text-align: right;
+	text-shadow: none;
+}
+#vertab:hover {
+	left: 0;
+}
+
+#vertab h1 {
+	margin: 0 0 20px 0;
+	font-size: 40px;
+	color: #222;
+	text-shadow: none;
+}
+
+#vertab ul {
+	list-style: none;
+	font-size: 30px;
+}
+#vertab li {
+	padding: 5px 0;
+	border-bottom: 1px solid #AAA;
+	color: #222;
+}
+#vertab li:last-child { border-bottom: none; }
