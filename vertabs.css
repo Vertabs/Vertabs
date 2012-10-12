@@ -4,11 +4,17 @@
 	width: 300px;
 	box-sizing: border-box;
 
+	transition: all .4s;
+	-webkit-transition: all .4s;
+	-moz-transition: all .4;
+	-o-transition: all .4s;
+
 	padding: 15px;
 	background: #DDD;
 	border: 1px solid #888;
 	border-top-right-radius: 10px;
 	border-bottom-right-radius: 10px;
+	box-shadow: 1px 1px 5px rgba(0,0,0, .4);
 
 	font-family: sans-serif;
 	color: #222;
