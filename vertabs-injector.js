@@ -1,10 +1,12 @@
-var tabs = [];
+var tabs = new Array();
 
 // Receive messages from background.js
-chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {	
-	tabs = sender.tabs;
-	console.log(tabs.length);
-	//sendResponse({text: "Number of tabs received: "+tabs.length});
+chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+	
+	alert("Working?");
+	console.log("Working?");
+	sendResponse({content:sender});
+
 });
 
 
@@ -24,11 +26,14 @@ Looping thru all available tabs
 2. Append text node to li element
 3. Append li element to ulNode element
 */
-console.log(tabs.length);
-for(var i in tabs){
-	var li = document.createElement("li");
-	li.appendChild(document.createTextNode(tabs[i].url));
-	ulNode.appendChild(li);
+if(tabs !== undefined) {
+	
+	tabs.forEach(function(tab){
+		var li = document.createElement("li");
+		li.appendChild(document.createTextNode(tab.url));
+		ulNode.appendChild(li);
+	});
+
 }
 
 vertabNode.appendChild(ulNode);
