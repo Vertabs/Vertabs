@@ -3,35 +3,42 @@ function sendTabs() {
 	// Fetch all tabs, async
 	chrome.tabs.getAllInWindow(function(tabs){
 
-		// Select the open tab
-		chrome.tabs.getSelected(null, function(tab) {
-			
-			console.log("Tab status: "+tab.status);
+		// Send list of tabs to each open tab. How bad is that performance-wise?
+		tabs.forEach(function(tab){
 
-			// Send message to that tab
-			if(tab.status == "complete") {
-				chrome.tabs.sendMessage(tab.id, {tabs: tabs}, function(response) {
-					
-					// Tabs were sent, callback code here
+			console.log(tab);
 
-				});
-			}
+			chrome.tabs.sendMessage(tab.id, {tabs: tabs}, function(response) {
+				// Some callback action?
+			});
 
 		});
 
+		return true;
 	});
 
 }
 
 
-chrome.tabs.onCreated.addListener(function(e){
+// onRemoved will update the tablist
+chrome.tabs.onRemoved.addListener(function(tabID, removeInfo){
+	console.log("onRemoved ID: "+tabID);
+	console.log(removeInfo);
+	console.log("");
+
+	sendTabs();
+});
+
+chrome.tabs.onUpdated.addListener(function(tabID, changeInfo, tab){
+	console.log("onUpdated. Status: "+changeInfo.status);
+	console.log(tab);
+	console.log("");
+
+	/*if(changeInfo.status == "complete")*/ sendTabs();
+});
+/*chrome.tabs.onCreated.addListener(function(){
 	console.log("onCreated");
-});
-chrome.tabs.onRemoved.addListener(function(tabid, removeinfo){
-	console.log("Removed:");
-	console.log(removeinfo);
-});
-chrome.tabs.onUpdated.addListener(function(tabid, changeinfo, tab){
-	console.log("Updated: "+tab.url);
-	console.log(changeinfo);
-});
+});*/
+/*chrome.tabs.onActiveChanged.addListener(function(){
+	console.log("onActiveChanged");
+});*/

@@ -1,23 +1,27 @@
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
 
-		// Message from extension?
-		if(!sender.tab) {
-			var tabs = request.tabs;
-			var vertabNode = document.createElement("div");
-			vertabNode.setAttribute("id", "vertab");
+		var tabs = request.tabs;
 
-			var ulNode = document.createElement("ul");
-
-			tabs.forEach(function(tab){
-				var li = document.createElement("li");
-				li.appendChild(document.createTextNode(tab.title));
-				ulNode.appendChild(li);
-			});
-
-			vertabNode.appendChild(ulNode);
-
-			document.body.appendChild(vertabNode);
+		// Remove #vertabs if exists
+		if(document.getElementById("vertabs")) {
+			document.removeChild(document.getElementById("vertabs"));
 		}
+
+		// #vertabs now removed
+		var vertabsNode = document.createElement("div");
+		vertabsNode.setAttribute("id", "vertabs");
+
+		var ulNode = document.createElement("ul");
+
+		tabs.forEach(function(tab){
+			var li = document.createElement("li");
+			li.appendChild(document.createTextNode(tab.title));
+			ulNode.appendChild(li);
+		});
+
+		vertabsNode.appendChild(ulNode);
+
+		document.body.appendChild(vertabsNode);
 	}
 );

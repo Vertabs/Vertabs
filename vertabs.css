@@ -1,4 +1,4 @@
-#vertab {
+#vertabs {
 	position: fixed;
 	left: -280px; top: 20px;
 	width: 300px;
@@ -23,11 +23,11 @@
 	text-align: right;
 	text-shadow: none;
 }
-#vertab:hover {
+#vertabs:hover {
 	left: 0;
 }
 
-#vertab h1 {
+#vertabs h1 {
 	margin: 0 0 20px 0;
 	font-size: 12px;
 	font-family: sans-serif;
@@ -36,24 +36,24 @@
 	text-shadow: none;
 }
 
-#vertab ul {
+#vertabs ul {
 	list-style: none;
-	font-size: 12px;
 }
-#vertab li {
+#vertabs li {
 	padding: 10px;
 	border-bottom: 1px solid #AAA;
+	font-size: 14px;
 	font-weight: bold;
 	color: #222;
 }
-#vertab li:hover {
+#vertabs li:hover {
 	cursor: pointer;
 	background: #AAA;
 }
-#vertab li:first-child {
+#vertabs li:first-child {
 	border-top-right-radius: 10px;
 }
-#vertab li:last-child {
+#vertabs li:last-child {
 	border-bottom-right-radius: 10px;
 	border-bottom: none;
 }
