@@ -1,16 +1,37 @@
-chrome.extension.onMessage.addListener(
-	function(request, sender, sendResponse) {
-		
-		console.log("hello");
+function sendTabs() {
 
-		if(request.tabReady) {
+	// Fetch all tabs, async
+	chrome.tabs.getAllInWindow(function(tabs){
 
-			// Fetch all tabs, async
-			chrome.tabs.getAllInWindow(function(tabs){
-				sendResponse({tabs:tabs});
-			});
+		// Select the open tab
+		chrome.tabs.getSelected(null, function(tab) {
+			
+			console.log("Tab status: "+tab.status);
 
-			return true;
-		}
-	}
-);
+			// Send message to that tab
+			if(tab.status == "complete") {
+				chrome.tabs.sendMessage(tab.id, {tabs: tabs}, function(response) {
+					
+					// Tabs were sent, callback code here
+
+				});
+			}
+
+		});
+
+	});
+
+}
+
+
+chrome.tabs.onCreated.addListener(function(e){
+	console.log("onCreated");
+});
+chrome.tabs.onRemoved.addListener(function(tabid, removeinfo){
+	console.log("Removed:");
+	console.log(removeinfo);
+});
+chrome.tabs.onUpdated.addListener(function(tabid, changeinfo, tab){
+	console.log("Updated: "+tab.url);
+	console.log(changeinfo);
+});

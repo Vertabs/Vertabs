@@ -1,26 +1,23 @@
-// Now ready to receive all open tabs	
-chrome.extension.sendMessage({tabReady: true}, function(response) {
-	
-	var tabs = response.tabs;
-	var vertabNode = document.createElement("div");
-	vertabNode.setAttribute("id", "vertab");
+chrome.extension.onMessage.addListener(
+	function(request, sender, sendResponse) {
 
-	// var h1Node = document.createElement("h1");
-	// h1Node.appendChild(document.createTextNode("Vertabs"));
-	// vertabNode.appendChild(h1Node);
+		// Message from extension?
+		if(!sender.tab) {
+			var tabs = request.tabs;
+			var vertabNode = document.createElement("div");
+			vertabNode.setAttribute("id", "vertab");
 
-	var ulNode = document.createElement("ul");
+			var ulNode = document.createElement("ul");
 
+			tabs.forEach(function(tab){
+				var li = document.createElement("li");
+				li.appendChild(document.createTextNode(tab.title));
+				ulNode.appendChild(li);
+			});
 
-	tabs.forEach(function(tab){
-		var li = document.createElement("li");
-		li.appendChild(document.createTextNode(tab.title));
-		ulNode.appendChild(li);
-	});
+			vertabNode.appendChild(ulNode);
 
-
-	vertabNode.appendChild(ulNode);
-
-	document.body.appendChild(vertabNode);
-
-});
+			document.body.appendChild(vertabNode);
+		}
+	}
+);
