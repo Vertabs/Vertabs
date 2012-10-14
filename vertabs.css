@@ -2,14 +2,16 @@
 	position: fixed;
 	left: -280px; top: 20px;
 	width: 300px;
+	z-index: 2147483647;
+	overflow: hidden;
 	box-sizing: border-box;
+	word-break: break-all;
 
 	transition: all .4s;
 	-webkit-transition: all .4s;
 	-moz-transition: all .4;
 	-o-transition: all .4s;
 
-	padding: 15px;
 	background: #DDD;
 	border: 1px solid #888;
 	border-top-right-radius: 10px;
@@ -27,8 +29,10 @@
 
 #vertab h1 {
 	margin: 0 0 20px 0;
-	font-size: 40px;
-	color: #222;
+	font-size: 12px;
+	font-family: sans-serif;
+	text-transform: uppercase;
+	color: #666;
 	text-shadow: none;
 }
 
@@ -37,8 +41,19 @@
 	font-size: 12px;
 }
 #vertab li {
-	padding: 5px 0;
+	padding: 10px;
 	border-bottom: 1px solid #AAA;
+	font-weight: bold;
 	color: #222;
 }
-#vertab li:last-child { border-bottom: none; }
+#vertab li:hover {
+	cursor: pointer;
+	background: #AAA;
+}
+#vertab li:first-child {
+	border-top-right-radius: 10px;
+}
+#vertab li:last-child {
+	border-bottom-right-radius: 10px;
+	border-bottom: none;
+}
