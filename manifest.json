@@ -18,7 +18,8 @@
 		{
 			"matches": ["http://*/*", "https://*/*"],
 			"js": ["vertabs-injector.js"],
-			"css": ["vertabs.css"]
+			"css": ["vertabs.css"],
+			"run_at": "document_end"
 		}
 	],
 

@@ -1,18 +1,16 @@
-var tabs = new Array();
+chrome.extension.onMessage.addListener(
+	function(request, sender, sendResponse) {
+		
+		console.log("hello");
 
-// Fetch all tabs, async
-chrome.tabs.getAllInWindow(function(t){
+		if(request.tabReady) {
 
-	tabs = t;
-	chrome.extension.getBackgroundPage().console.log(tabs);
+			// Fetch all tabs, async
+			chrome.tabs.getAllInWindow(function(tabs){
+				sendResponse({tabs:tabs});
+			});
 
-	// Send the list to vertabs-injector.js at callback
-	chrome.tabs.getSelected(null, function(tab){
-
-		chrome.tabs.sendMessage(tab.id, {tabsList: tabs}, function(response) {
-			// Message now confirmed as reveived by content script
-		});
-
-	});
-
-});
+			return true;
+		}
+	}
+);
