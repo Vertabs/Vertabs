@@ -22,8 +22,14 @@ chrome.extension.onMessage.addListener(
 			li.setAttribute("data-tab-id", tab.id);
 
 			li.onclick = switchTab;
-
+			
 			li.appendChild(document.createTextNode(tab.title));
+			
+			smallNode = document.createElement("small");
+			urlText = document.createTextNode(tab.url);
+			smallNode.appendChild(urlText);
+			li.appendChild(smallNode);
+
 			ulNode.appendChild(li);
 		});
 

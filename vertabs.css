@@ -1,5 +1,10 @@
 #vertabs * {
+	box-sizing: border-box;
 	margin: 0; padding: 0;
+	transition: all .4s;
+	-webkit-transition: all .4s;
+	-moz-transition: all .4;
+	-o-transition: all .4s;
 }
 #vertabs {
 	position: fixed;
@@ -8,19 +13,12 @@
 	max-height: 600px;
 	z-index: 2147483647;
 	overflow-y: scroll;
-	box-sizing: border-box;
-	word-break: break-all;
-
-	transition: all .4s;
-	-webkit-transition: all .4s;
-	-moz-transition: all .4;
-	-o-transition: all .4s;
 
 	background: #DDD;
 	border: 1px solid #888;
 	border-top-right-radius: 10px;
 	border-bottom-right-radius: 10px;
-	box-shadow: 1px 1px 5px rgba(0,0,0, .4);
+	box-shadow: 1px 1px 5px rgba(0,0,0, 0.3);
 
 	font-family: sans-serif;
 	color: #222;
@@ -45,7 +43,7 @@
 
 }
 #vertabs li {
-	padding: 10px;
+	padding: 5px 10px;
 	border-bottom: 1px solid #AAA;
 	font-size: 14px;
 	font-weight: bold;
@@ -53,7 +51,7 @@
 }
 #vertabs li:hover {
 	cursor: pointer;
-	background: #AAA;
+	background: #BBB;
 }
 #vertabs li:first-child {
 	border-top-right-radius: 10px;
@@ -61,4 +59,10 @@
 #vertabs li:last-child {
 	border-bottom-right-radius: 10px;
 	border-bottom: none;
+}
+#vertabs li small {
+	display: block;
+	font-size: 10px;
+	word-break: break-all;
+	color: #666;
 }
