@@ -1,3 +1,6 @@
+#vertabs * {
+	margin: 0; padding: 0;
+}
 #vertabs {
 	position: fixed;
 	left: -280px; top: 20px;
@@ -38,6 +41,7 @@
 
 #vertabs ul {
 	list-style: none;
+
 }
 #vertabs li {
 	padding: 10px;

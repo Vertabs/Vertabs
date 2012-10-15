@@ -20,6 +20,15 @@ function sendTabs() {
 }
 
 
+// Receive message and switch tab
+chrome.extension.onMessage.addListener(
+	function(request, sender, sendResponse) {
+		var gotoTab = request.gotoTab;
+		chrome.tabs.update(gotoTab, {active:true});
+	}
+);
+
+
 // onRemoved will update the tablist
 chrome.tabs.onRemoved.addListener(function(tabID, removeInfo){
 	console.log("onRemoved ID: "+tabID);
@@ -34,7 +43,7 @@ chrome.tabs.onUpdated.addListener(function(tabID, changeInfo, tab){
 	console.log(tab);
 	console.log("");
 
-	/*if(changeInfo.status == "complete")*/ sendTabs();
+	sendTabs();
 });
 /*chrome.tabs.onCreated.addListener(function(){
 	console.log("onCreated");
