@@ -48,11 +48,13 @@
 
 }
 #vertabs li {
+	overflow: hidden;
 	padding: 5px 10px;
 	border-bottom: 1px solid #AAA;
 	font-size: 14px;
 	font-weight: bold;
 	color: #222;
+	line-height: 100%;
 }
 #vertabs li:hover {
 	cursor: pointer;

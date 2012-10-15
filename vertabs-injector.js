@@ -23,10 +23,12 @@ chrome.extension.onMessage.addListener(
 
 			li.onclick = switchTab;
 			
-			li.appendChild(document.createTextNode(tab.title));
+			var shorttitle = (tab.title.length > 30) ? tab.title.substring(0,27)+"..." : tab.title;
+			li.appendChild(document.createTextNode(shorttitle));
 			
 			smallNode = document.createElement("small");
-			urlText = document.createTextNode(tab.url);
+			var shorturl = (tab.url.length > 50) ? tab.url.substring(0,47)+"..." : tab.url;
+			urlText = document.createTextNode(shorturl);
 			smallNode.appendChild(urlText);
 			li.appendChild(smallNode);
 

@@ -20,6 +20,11 @@ function sendTabs() {
 }
 
 
+chrome.browserAction.onClicked.addListener(function(tab){
+	
+});
+
+
 // Receive message and switch tab
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
@@ -37,6 +42,7 @@ chrome.tabs.onRemoved.addListener(function(tabID, removeInfo){
 
 	sendTabs();
 });
+
 
 chrome.tabs.onUpdated.addListener(function(tabID, changeInfo, tab){
 	console.log("onUpdated. Status: "+changeInfo.status);
