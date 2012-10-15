@@ -24,7 +24,7 @@ function sendTabs() {
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		var gotoTab = request.gotoTab;
-		chrome.tabs.update(gotoTab, {active:true});
+		chrome.tabs.update(parseInt(gotoTab), {active:true});
 	}
 );
 
