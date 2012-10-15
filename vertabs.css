@@ -14,6 +14,11 @@
 	z-index: 2147483647;
 	overflow-y: scroll;
 
+	transition: all .4s;
+	-webkit-transition: all .4s;
+	-moz-transition: all .4;
+	-o-transition: all .4s;
+
 	background: #DDD;
 	border: 1px solid #888;
 	border-top-right-radius: 10px;
