@@ -5,8 +5,9 @@
 	position: fixed;
 	left: -280px; top: 20px;
 	width: 300px;
+	max-height: 600px;
 	z-index: 2147483647;
-	overflow: hidden;
+	overflow-y: scroll;
 	box-sizing: border-box;
 	word-break: break-all;
 
