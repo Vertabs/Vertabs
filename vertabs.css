@@ -27,7 +27,7 @@
 
 	font-family: sans-serif;
 	color: #222;
-	text-align: right;
+	text-align: left;
 	text-shadow: none;
 }
 #vertabs:hover {
@@ -67,9 +67,21 @@
 	border-bottom-right-radius: 10px;
 	border-bottom: none;
 }
+#vertabs li img {
+	width: 16px; height: 16px;
+	vertical-align: bottom;
+	margin: 0 3px;
+}
 #vertabs li small {
 	display: block;
 	font-size: 10px;
 	word-break: break-all;
 	color: #666;
+}
+#vertabs li .vertabs-close-icon {
+	width: 10px; height: 10px;
+	float: right;
+}
+#vertabs li .vertabs-close-icon:hover {
+	background: #777;
 }

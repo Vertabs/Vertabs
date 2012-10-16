@@ -23,5 +23,9 @@
 		}
 	],
 
+	"web_accessible_resources": [
+		"imgs/close.png"
+	],
+
 	"permissions": ["tabs"]
 }

@@ -21,8 +21,27 @@ chrome.extension.onMessage.addListener(
 			var li = document.createElement("li");
 			li.setAttribute("data-tab-id", tab.id);
 
-			li.onclick = switchTab;
+			li.addEventListener("click", function(e){console.log("li was clicked!"); switchTab(e);});
 			
+
+			/*
+			Chrome Extensions don't have proper access to favicon stored under chrome://
+			This will only output favicons with normal urls. Might change in the future.£
+			*/
+			if(tab.favIconUrl && tab.favIconUrl.indexOf('chrome://') == -1) {
+				var faviconNode = document.createElement("img");
+				faviconNode.setAttribute('src', tab.favIconUrl);
+				li.appendChild(faviconNode);
+			}
+
+			var closeNode = document.createElement("img");
+			var closeSrc = chrome.extension.getURL("imgs/close.png");
+			closeNode.setAttribute('src', closeSrc);
+			closeNode.setAttribute('class', 'vertabs-close-icon')
+			closeNode.addEventListener("click", function(){});
+
+			li.appendChild(closeNode);
+
 			var shorttitle = (tab.title.length > 30) ? tab.title.substring(0,27)+"..." : tab.title;
 			li.appendChild(document.createTextNode(shorttitle));
 			
@@ -31,6 +50,7 @@ chrome.extension.onMessage.addListener(
 			urlText = document.createTextNode(shorturl);
 			smallNode.appendChild(urlText);
 			li.appendChild(smallNode);
+
 
 			ulNode.appendChild(li);
 		});
