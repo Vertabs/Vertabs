@@ -2,11 +2,18 @@
 	"manifest_version": 2,
 
 	"name": "Vertabs",
-	"version": "0.0.0",
+	"version": "0.1",
 	"description": "Vertical tabs for tab addicts.",
 	
+	"icons": {
+		"16": "imgs/icon16.png",
+		"48": "imgs/icon48.png",
+		"128": "imgs/icon128.png"
+	},
+
 	"browser_action": {
-		"default_icon": "imgs/icon.png"
+		"default_icon": "imgs/icon.png",
+		"default_title": "Toggle Vertabs"
 	},
 
 	"background": {
