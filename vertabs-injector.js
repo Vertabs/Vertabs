@@ -17,11 +17,14 @@ chrome.extension.onMessage.addListener(
 			ulNode.innerHTML = "";
 		}
 
+		vertabsNode.addEventListener("click", vertabsNodeClickHandler);
+
 		tabs.forEach(function(tab){
 			var li = document.createElement("li");
 			li.setAttribute("data-tab-id", tab.id);
 
-			li.addEventListener("click", function(e){console.log("li was clicked!"); switchTab(e);});
+			// This should be delegated to UL!
+			// li.addEventListener("click", switchTab);
 			
 
 			/*
@@ -38,7 +41,9 @@ chrome.extension.onMessage.addListener(
 			var closeSrc = chrome.extension.getURL("imgs/close.png");
 			closeNode.setAttribute('src', closeSrc);
 			closeNode.setAttribute('class', 'vertabs-close-icon')
-			closeNode.addEventListener("click", function(){});
+
+			// This should be delegated to UL!
+			// closeNode.addEventListener("click", function(){console.log("Close!");});
 
 			li.appendChild(closeNode);
 
@@ -62,10 +67,36 @@ chrome.extension.onMessage.addListener(
 );
 
 
-function switchTab(e) {
-	var tabID = e.target.getAttribute("data-tab-id");
+function vertabsNodeClickHandler(e) {
+	var closeID, tabID;
 
-	chrome.extension.sendMessage({gotoTab: tabID}, function(response) {
-		// :)
-	});
+	console.log(e);
+
+	// Check if close icon was clicked
+	if(e.target.className == "vertabs-close-icon") {
+		
+		closeID = e.target.parentNode.getAttribute("data-tab-id");
+		closeTab(closeID);
+
+	} else {
+		
+		if(e.target.nodeName == "IMG" || e.target.nodeName == "SMALL")
+			tabID = e.target.parentNode.getAttribute("data-tab-id");
+		else
+			tabID = e.target.getAttribute("data-tab-id");
+
+		switchTab(tabID);
+
+	}
 }
+
+function switchTab(tabID) {
+	chrome.extension.sendMessage({gotoTab: tabID});
+}
+
+function closeTab(tabID) {
+	chrome.extension.sendMessage({closeTab: tabID});
+}
+
+
+

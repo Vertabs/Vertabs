@@ -1,22 +1,14 @@
 function sendTabs() {
-
 	// Fetch all tabs, async
 	chrome.tabs.getAllInWindow(function(tabs){
 
 		// Send list of tabs to each open tab. How bad is that performance-wise?
 		tabs.forEach(function(tab){
-
-			console.log(tab);
-
-			chrome.tabs.sendMessage(tab.id, {tabs: tabs}, function(response) {
-				// Some callback action?
-			});
-
+			chrome.tabs.sendMessage(tab.id, {tabs: tabs});
 		});
 
 		return true;
 	});
-
 }
 
 
@@ -28,8 +20,11 @@ chrome.browserAction.onClicked.addListener(function(tab){
 // Receive message and switch tab
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
-		var gotoTab = request.gotoTab;
-		chrome.tabs.update(parseInt(gotoTab), {active:true});
+		if(request.gotoTab) {
+			chrome.tabs.update(parseInt(request.gotoTab), {active:true});
+		} else if(request.closeTab) {
+			chrome.tabs.remove(parseInt(request.closeTab));
+		}
 	}
 );
 
