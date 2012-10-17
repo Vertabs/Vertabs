@@ -23,6 +23,12 @@ chrome.extension.onMessage.addListener(
 		// Handles all click events. Delegation.
 		vertabsNode.addEventListener("click", vertabsNodeClickHandler);
 
+		// "New tab" li element
+		var newtabLiNode = document.createElement("li");
+		newtabLiNode.setAttribute("class", "vertabs-new-tab");
+		newtabLiNode.appendChild(document.createTextNode("New tab"));
+		ulNode.appendChild(newtabLiNode);
+
 		tabs.forEach(function(tab){
 			var li = document.createElement("li");
 			li.setAttribute("data-tab-id", tab.id);			
@@ -66,8 +72,12 @@ chrome.extension.onMessage.addListener(
 function vertabsNodeClickHandler(e) {
 	var closeID, tabID;
 
+	// New tab clicked
+	if(e.target.className == "vertabs-new-tab") {
+		newTab();
+		
 	// Close tab if the close icon was clicked
-	if(e.target.className == "vertabs-close-icon") {
+	} else if(e.target.className == "vertabs-close-icon") {
 		closeID = e.target.parentNode.getAttribute("data-tab-id");
 		closeTab(closeID);
 
@@ -86,10 +96,12 @@ function removeVertabs() {
 	var vertabsNode = document.getElementById("vertabs");
 	vertabsNode.parentNode.removeChild(vertabsNode);
 }
-
 function switchTab(tabID) {
 	chrome.extension.sendMessage({gotoTab: tabID});
 }
 function closeTab(tabID) {
 	chrome.extension.sendMessage({closeTab: tabID});
+}
+function newTab() {
+	chrome.extension.sendMessage({newTab: true});
 }

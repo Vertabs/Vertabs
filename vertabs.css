@@ -47,6 +47,13 @@
 	list-style: none;
 
 }
+#vertabs li.vertabs-new-tab {
+	text-align: center;
+	font-size: 16px;
+}
+#vertabs li.vertabs-new-tab:hover {
+	color: #008123;
+}
 #vertabs li {
 	overflow: hidden;
 	padding: 5px 10px;
