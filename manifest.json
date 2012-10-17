@@ -1,10 +1,8 @@
 {
-	"manifest_version": 2,
-
 	"name": "Vertabs",
-	"version": "0.1",
-	"description": "Vertical tabs for tab addicts.",
-	
+	"version": "1.0.0",
+	"description": "Vertical tabs for tab junkies.",
+
 	"icons": {
 		"16": "imgs/icon16.png",
 		"48": "imgs/icon48.png",
@@ -34,5 +32,7 @@
 		"imgs/close.png"
 	],
 
-	"permissions": ["tabs"]
+	"permissions": ["tabs"],
+
+	"manifest_version": 2
 }
