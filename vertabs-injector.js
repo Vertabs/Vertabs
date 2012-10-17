@@ -61,6 +61,13 @@ chrome.extension.onMessage.addListener(
 			ulNode.appendChild(li);
 		});
 
+		if(tabs.length >= 10) {
+			newtabLiNode = document.createElement("li");
+			newtabLiNode.setAttribute("class", "vertabs-new-tab");
+			newtabLiNode.appendChild(document.createTextNode("New tab"));
+			ulNode.appendChild(newtabLiNode);
+		}
+
 		vertabsNode.appendChild(ulNode);
 
 
@@ -75,7 +82,7 @@ function vertabsNodeClickHandler(e) {
 	// New tab clicked
 	if(e.target.className == "vertabs-new-tab") {
 		newTab();
-		
+
 	// Close tab if the close icon was clicked
 	} else if(e.target.className == "vertabs-close-icon") {
 		closeID = e.target.parentNode.getAttribute("data-tab-id");
