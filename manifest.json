@@ -32,7 +32,11 @@
 		"imgs/close.png"
 	],
 
-	"permissions": ["tabs"],
+	"permissions": [
+		"tabs",
+		"http://*/*",
+		"https://*/*"
+	],
 
 	"manifest_version": 2
 }
