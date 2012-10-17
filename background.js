@@ -1,3 +1,16 @@
+var vertabsActive = false;
+var vertabsBadge = "Off";
+chrome.browserAction.setBadgeText({text:vertabsBadge});
+chrome.browserAction.setBadgeBackgroundColor({color:"#4675ff"});
+
+/*
+Pushing the Chrome toolbar button toggles Vertabs
+*/
+chrome.browserAction.onClicked.addListener(function(tab) {
+	toggleVertabs();
+});
+
+
 /*
 Receive message sent from a content script.
 Will switch tab, or close a tab, depending on
@@ -15,12 +28,33 @@ chrome.extension.onMessage.addListener(
 
 
 chrome.tabs.onRemoved.addListener(function(tabID, removeInfo){
-	sendTabs();
+	if(vertabsActive)
+		sendTabs();
 });
 chrome.tabs.onUpdated.addListener(function(tabID, changeInfo, tab){
-	sendTabs();
+	if(vertabsActive)
+		sendTabs();
 });
 
+
+// Clicking the browserAction toggles Vertabs on and off
+function toggleVertabs() {
+	vertabsActive = !vertabsActive;
+	vertabsBadge = (vertabsActive) ? "On" : "Off";
+	chrome.browserAction.setBadgeText({text:vertabsBadge});
+
+	// Tell content scripts to remove or add Vertabs
+	if(vertabsActive) {
+		sendTabs();
+	} else {
+		chrome.tabs.getAllInWindow(function(tabs){
+			tabs.forEach(function(tab){
+				chrome.tabs.sendMessage(tab.id, {turnOff: true});
+			});
+			return true;
+		});
+	}
+}
 
 function sendTabs() {
 	// Fetch all tabs, async

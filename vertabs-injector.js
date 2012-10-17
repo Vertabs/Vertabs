@@ -1,5 +1,11 @@
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
+		
+		if(request.turnOff) {
+			removeVertabs();
+			return null;
+		}
+
 		var tabs = request.tabs;
 		var vertabsNode;
 		var ulNode;
@@ -74,6 +80,11 @@ function vertabsNodeClickHandler(e) {
 
 		switchTab(tabID);
 	}
+}
+
+function removeVertabs() {
+	var vertabsNode = document.getElementById("vertabs");
+	vertabsNode.parentNode.removeChild(vertabsNode);
 }
 
 function switchTab(tabID) {
