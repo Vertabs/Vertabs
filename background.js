@@ -1,4 +1,5 @@
 var vertabsActive = [];
+var iconPath = "imgs/icon_inactive.png";
 
 
 /*
@@ -49,6 +50,7 @@ function toggleVertabs(tab) {
 
 	if(vertabsActive[tab.windowId]) {
 		sendTabs();
+		var iconPath = "imgs/icon.png";
 	} else {
 		chrome.tabs.getAllInWindow(function(tabs){
 			tabs.forEach(function(tab){
@@ -56,7 +58,10 @@ function toggleVertabs(tab) {
 			});
 			return true;
 		});
+		var iconPath = "imgs/icon_inactive.png";
 	}
+
+	chrome.browserAction.setIcon({path:iconPath});
 }
 
 function sendTabs() {
