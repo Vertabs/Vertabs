@@ -1,13 +1,13 @@
-var vertabsActive = false;
-var vertabsBadge = "Off";
-chrome.browserAction.setBadgeText({text:vertabsBadge});
-chrome.browserAction.setBadgeBackgroundColor({color:"#be7633"});
+var vertabsActive = [];
+
 
 /*
-Pushing the Chrome toolbar button toggles Vertabs
+Pushing the Chrome toolbar button toggles Vertabs in that window.
+Users can have multiple Chrome windows, and therefore Vertabs
+active in some of them, and inactive in some of them.
 */
 chrome.browserAction.onClicked.addListener(function(tab) {
-	toggleVertabs();
+	toggleVertabs(tab);
 });
 
 
@@ -27,6 +27,9 @@ chrome.extension.onMessage.addListener(
 );
 
 
+/*
+Listen for tab events being removed or created.
+*/
 chrome.tabs.onRemoved.addListener(function(tabID, removeInfo){
 	if(vertabsActive)
 		sendTabs();
@@ -37,14 +40,15 @@ chrome.tabs.onUpdated.addListener(function(tabID, changeInfo, tab){
 });
 
 
-// Clicking the browserAction toggles Vertabs on and off
-function toggleVertabs() {
-	vertabsActive = !vertabsActive;
-	vertabsBadge = (vertabsActive) ? "On" : "Off";
-	chrome.browserAction.setBadgeText({text:vertabsBadge});
+/*
+Clicking the browserAction toggles Vertabs on and off in
+that particular Chrome window.
+*/
+function toggleVertabs(tab) {
+	
+	vertabsActive[tab.windowId] = !vertabsActive[tab.windowId];
 
-	// Tell content scripts to remove or add Vertabs
-	if(vertabsActive) {
+	if(vertabsActive[tab.windowId]) {
 		sendTabs();
 	} else {
 		chrome.tabs.getAllInWindow(function(tabs){
