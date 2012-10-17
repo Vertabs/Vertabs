@@ -1,7 +1,7 @@
 var vertabsActive = false;
 var vertabsBadge = "Off";
 chrome.browserAction.setBadgeText({text:vertabsBadge});
-chrome.browserAction.setBadgeBackgroundColor({color:"#4675ff"});
+chrome.browserAction.setBadgeBackgroundColor({color:"#be7633"});
 
 /*
 Pushing the Chrome toolbar button toggles Vertabs
