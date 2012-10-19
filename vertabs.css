@@ -12,7 +12,7 @@
 	width: 300px;
 	max-height: 600px;
 	z-index: 2147483647;
-	overflow-y: scroll;
+	overflow-y: auto;
 
 	transition: all .4s;
 	-webkit-transition: all .4s;

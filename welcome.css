@@ -1,0 +1,29 @@
+body {
+	background: #f2efd7;
+	font-family: Helvetica, Arial, sans-serif;
+	color: #222;
+	line-height: 1.5em;
+}
+
+#wrapper {
+	width: 800px;
+	margin: 30px auto;
+	padding: 10px 20px;
+	background: white;
+	border: 1px solid #AAA;
+	box-shadow: 0 10px 5px -9px rgba(0,0,0, 0.3);
+}
+
+#wrapper h1 {
+	
+}
+#wrapper a {
+	color: #f23a00;
+}
+
+#wrapper footer {
+	margin: 40px 0 0 0;
+	border-top: 1px solid #CCC;
+	font-size: .8em;
+	color: #444;
+}

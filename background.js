@@ -1,3 +1,17 @@
+/*
+Is Vertabs installed? Otherwise show welcome.html
+*/
+if(localStorage.getItem("vertabsInstalled")) {
+	console.log("installed");
+} else {
+	console.log("not installed");
+
+	localStorage.setItem("vertabsInstalled", true);
+	chrome.tabs.create({url: chrome.extension.getURL("welcome.html")});
+}	
+
+
+
 var vertabsActive = [];
 var iconPath = "imgs/icon_inactive.png";
 
@@ -20,7 +34,9 @@ what's specified in the request object.
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		if(request.newTab) {
-			chrome.tabs.create({});
+			chrome.tabs.create({}, function(tab) {
+				// chrome.tabs.update(tab.id, {url:tab.url, selected:true});
+			});
 		} else if(request.gotoTab) {
 			chrome.tabs.update(parseInt(request.gotoTab), {active:true});
 		} else if(request.closeTab) {
@@ -74,15 +90,14 @@ function toggleVertabs(tab) {
 	});
 }
 
+/*
+Loop thru each tab in current window and show Vertabs
+*/
 function sendTabs() {
-	// Fetch all tabs, async
 	chrome.tabs.getAllInWindow(function(tabs){
-
-		// Send list of tabs to each open tab. How bad is that performance-wise?
 		tabs.forEach(function(tab){
 			chrome.tabs.sendMessage(tab.id, {tabs: tabs});
 		});
-
 		return true;
 	});
 }
