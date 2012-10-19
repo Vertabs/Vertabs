@@ -66,7 +66,12 @@ function toggleVertabs(tab) {
 		var iconPath = "imgs/icon_inactive.png";
 	}
 
-	chrome.browserAction.setIcon({path:iconPath});
+	chrome.tabs.getAllInWindow(function(tabs){
+		tabs.forEach(function(tab){
+			chrome.browserAction.setIcon({tabId: tab.id,path:iconPath});
+		});
+		return true;
+	});
 }
 
 function sendTabs() {
