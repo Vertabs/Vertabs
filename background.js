@@ -34,7 +34,10 @@ chrome.extension.onMessage.addListener(
 Listen for tab events being removed or created.
 */
 chrome.tabs.onRemoved.addListener(function(tabID, removeInfo){
-	sendTabs();
+	chrome.windows.getCurrent(function(win){
+		if(vertabsActive[win.id])
+			sendTabs();
+	});
 });
 chrome.tabs.onUpdated.addListener(function(tabID, changeInfo, tab){
 	if(vertabsActive[tab.windowId])
