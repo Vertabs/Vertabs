@@ -2,10 +2,8 @@
 Is Vertabs installed? Otherwise show welcome.html
 */
 if(localStorage.getItem("vertabsInstalled")) {
-	console.log("installed");
+	
 } else {
-	console.log("not installed");
-
 	localStorage.setItem("vertabsInstalled", true);
 	chrome.tabs.create({url: chrome.extension.getURL("welcome.html")});
 }	

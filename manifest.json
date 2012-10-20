@@ -22,7 +22,7 @@
 	"content_scripts": [
 		{
 			"matches": ["http://*/*", "https://*/*"],
-			"js": ["vertabs-injector.js"],
+			"js": ["jquery.min.js", "vertabs-injector.js"],
 			"css": ["vertabs.css"],
 			"run_at": "document_end"
 		}
