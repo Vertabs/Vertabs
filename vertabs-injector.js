@@ -1,82 +1,71 @@
+var $ = jQuery;
+
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		
 		if(request.turnOff) {
-			removeVertabs();
+			$("div#vertabs").remove();
 			return null;
 		}
 
 		var tabs = request.tabs;
-		var vertabsNode;
-		var ulNode;
 
-		// Remove #vertabs if exists
-		if(!(vertabsNode = document.getElementById("vertabs"))) {
-			vertabsNode = document.createElement("div");
-			vertabsNode.setAttribute("id", "vertabs");
-			ulNode = document.createElement("ul");
+		if($("#vertabs").length == 0) {
+			var vertabs = $("<div></div>").attr("id", "vertabs");
+			var ul = $("<ul></ul>");
 		} else {
-			ulNode = vertabsNode.getElementsByTagName("ul")[0];
-			ulNode.innerHTML = "";
+			var vertabs = $("#vertabs");
+			var ul = vertabs.find("ul").empty();
 		}
 
 		// Handles all click events. Delegation.
-		vertabsNode.addEventListener("click", vertabsNodeClickHandler);
+		vertabs.on("click", vertabsClickHandler);
 
 		// "New tab" li element
-		var newtabLiNode = document.createElement("li");
-		newtabLiNode.setAttribute("class", "vertabs-new-tab");
-		newtabLiNode.appendChild(document.createTextNode("New tab"));
-		ulNode.appendChild(newtabLiNode);
+		var newtabLi = $("<li></li>")
+			.text("New tab")
+			.addClass("vertabs-new-tab");
+
+		ul.append(newtabLi);
 
 		tabs.forEach(function(tab){
-			var li = document.createElement("li");
-			li.setAttribute("data-tab-id", tab.id);			
-
-			/*
-			This will only output favicons with normal urls.
-			SO question: http://tinyurl.com/d857xwk
-			*/
+			var li = $("<li></li>").data("tab-id", tab.id);
+			console.log(li);
+			// This will only output favicons with normal urls. SO question: http://tinyurl.com/d857xwk
 			if(tab.favIconUrl && tab.favIconUrl.indexOf('chrome://') == -1) {
-				var faviconNode = document.createElement("img");
-				faviconNode.setAttribute('src', tab.favIconUrl);
-				li.appendChild(faviconNode);
+				var favicon = $("<img />")
+					.attr("src", tab.favIconUrl)
+					.appendTo(li);
 			}
 
-			var closeNode = document.createElement("img");
-			closeNode.setAttribute('src', chrome.extension.getURL("imgs/close.png"));
-			closeNode.setAttribute('class', 'vertabs-close-icon')
-			li.appendChild(closeNode);
+			var closeIcon = $("<img>")
+				.attr("src", chrome.extension.getURL("imgs/close.png"))
+				.addClass("vertabs-close-icon")
+				.appendTo(li);
 
 			// Title won't be longer than 30
-			var shorttitle = (tab.title.length > 30) ? tab.title.substring(0,27)+"..." : tab.title;
-			li.appendChild(document.createTextNode(shorttitle));
+			var title = (tab.title.length > 30) ? tab.title.substring(0,27)+"..." : tab.title;
+			li.append(title);
 			
 			// URLs won't be longer than 50
-			smallNode = document.createElement("small");
-			var shorturl = (tab.url.length > 50) ? tab.url.substring(0,47)+"..." : tab.url;
-			smallNode.appendChild(document.createTextNode(shorturl));
-			li.appendChild(smallNode);
-
-			ulNode.appendChild(li);
+			var url = (tab.url.length > 50) ? tab.url.substring(0,47)+"..." : tab.url;
+			li.append($("<small></small>")
+				.text(url))
+				.appendTo(ul);
 		});
 
 		if(tabs.length >= 10) {
-			newtabLiNode = document.createElement("li");
-			newtabLiNode.setAttribute("class", "vertabs-new-tab");
-			newtabLiNode.appendChild(document.createTextNode("New tab"));
-			ulNode.appendChild(newtabLiNode);
+			ul.append(newtabLi);
 		}
 
-		vertabsNode.appendChild(ulNode);
-
-
-		document.body.appendChild(vertabsNode);
+		vertabs.append(ul);
+		$("body").append(vertabs);
 	}
 );
 
 
-function vertabsNodeClickHandler(e) {
+
+function vertabsClickHandler(e) {
 	var closeID, tabID;
 
 	// New tab clicked
@@ -97,11 +86,6 @@ function vertabsNodeClickHandler(e) {
 
 		switchTab(tabID);
 	}
-}
-
-function removeVertabs() {
-	var vertabsNode = document.getElementById("vertabs");
-	vertabsNode.parentNode.removeChild(vertabsNode);
 }
 function switchTab(tabID) {
 	chrome.extension.sendMessage({gotoTab: tabID});
