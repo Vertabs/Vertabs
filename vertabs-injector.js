@@ -13,13 +13,13 @@ chrome.extension.onMessage.addListener(
 		if($("#vertabs").length == 0) {
 			var vertabs = $("<div></div>").attr("id", "vertabs");
 			var ul = $("<ul></ul>");
+
+			// Handles all click events. Delegation.
+			vertabs.on("click", vertabsClickHandler);
 		} else {
 			var vertabs = $("#vertabs");
 			var ul = vertabs.find("ul").empty();
 		}
-
-		// Handles all click events. Delegation.
-		vertabs.on("click", vertabsClickHandler);
 
 		// "New tab" li element
 		var newtabLi = $("<li></li>")
@@ -30,7 +30,7 @@ chrome.extension.onMessage.addListener(
 
 		tabs.forEach(function(tab){
 			var li = $("<li></li>").data("tab-id", tab.id);
-			console.log(li);
+
 			// This will only output favicons with normal urls. SO question: http://tinyurl.com/d857xwk
 			if(tab.favIconUrl && tab.favIconUrl.indexOf('chrome://') == -1) {
 				var favicon = $("<img />")
@@ -38,7 +38,7 @@ chrome.extension.onMessage.addListener(
 					.appendTo(li);
 			}
 
-			var closeIcon = $("<img>")
+			var closeIcon = $("<img />")
 				.attr("src", chrome.extension.getURL("imgs/close.png"))
 				.addClass("vertabs-close-icon")
 				.appendTo(li);
@@ -68,23 +68,21 @@ chrome.extension.onMessage.addListener(
 
 
 function vertabsClickHandler(e) {
-	var closeID, tabID;
-
 	// New tab clicked
 	if(e.target.className == "vertabs-new-tab") {
 		newTab();
 
 	// Close tab if the close icon was clicked
 	} else if(e.target.className == "vertabs-close-icon") {
-		closeID = e.target.parentNode.getAttribute("data-tab-id");
+		var closeID = e.target.parentNode.getAttribute("data-tab-id");
 		closeTab(closeID);
 
 	// Otherwise switch to clicked tab. Make sure to grab the tab id from the li element
 	} else {
 		if(e.target.nodeName == "IMG" || e.target.nodeName == "SMALL")
-			tabID = e.target.parentNode.getAttribute("data-tab-id");
+			var tabID = e.target.parentNode.getAttribute("data-tab-id");
 		else
-			tabID = e.target.getAttribute("data-tab-id");
+			var tabID = e.target.getAttribute("data-tab-id");
 
 		switchTab(tabID);
 	}

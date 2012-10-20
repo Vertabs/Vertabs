@@ -32,9 +32,7 @@ what's specified in the request object.
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		if(request.newTab) {
-			chrome.tabs.create({}, function(tab) {
-				// chrome.tabs.update(tab.id, {url:tab.url, selected:true});
-			});
+			chrome.tabs.create({});
 		} else if(request.gotoTab) {
 			chrome.tabs.update(parseInt(request.gotoTab), {active:true});
 		} else if(request.closeTab) {
