@@ -1,4 +1,4 @@
-var $ = jQuery;
+(function($){ // SIAF with jQuery as $
 
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
@@ -62,6 +62,8 @@ chrome.extension.onMessage.addListener(
 		$("body").append(vertabs);
 	}
 );
+
+})(jQuery);
 
 
 
