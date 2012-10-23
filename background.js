@@ -1,13 +1,10 @@
 /*
-Is Vertabs installed? Otherwise show welcome.html
+Is Vertabs 1.1 installed? Otherwise show welcome.html
 */
-if(localStorage.getItem("vertabsInstalled")) {
-	
-} else {
-	localStorage.setItem("vertabsInstalled", true);
+if(!localStorage.getItem("vertabsInstalled1.1")) {
+	localStorage.setItem("vertabsInstalled1.1", true);
 	chrome.tabs.create({url: chrome.extension.getURL("welcome.html")});
-}	
-
+}
 
 
 var vertabsActive = [];
@@ -43,17 +40,21 @@ chrome.extension.onMessage.addListener(
 
 
 /*
-Listen for tab events being removed or created.
+Listen for tab events.
+Just listening for remove or create seems to be enough.
 */
 chrome.tabs.onRemoved.addListener(function(tabID, removeInfo){
 	chrome.windows.getCurrent(function(win){
-		if(vertabsActive[win.id])
+		if(vertabsActive[win.id]) {
 			sendTabs();
+		}
 	});
 });
 chrome.tabs.onUpdated.addListener(function(tabID, changeInfo, tab){
 	if(vertabsActive[tab.windowId])
 		sendTabs();
+
+	chrome.browserAction.setIcon({tabId: tab.id, path: iconPath});
 });
 
 
@@ -62,12 +63,13 @@ Clicking the browserAction toggles Vertabs on and off in
 that particular Chrome window.
 */
 function toggleVertabs(tab) {
-	
-	vertabsActive[tab.windowId] = !vertabsActive[tab.windowId];
 
-	if(vertabsActive[tab.windowId]) {
+	if(vertabsActive[tab.windowId] == true) vertabsActive[tab.windowId] = false;
+	else vertabsActive[tab.windowId] = true;
+
+	if(vertabsActive[tab.windowId] == true) {
 		sendTabs();
-		var iconPath = "imgs/icon.png";
+		iconPath = "imgs/icon.png";
 	} else {
 		chrome.tabs.getAllInWindow(function(tabs){
 			tabs.forEach(function(tab){
@@ -75,7 +77,7 @@ function toggleVertabs(tab) {
 			});
 			return true;
 		});
-		var iconPath = "imgs/icon_inactive.png";
+		iconPath = "imgs/icon_inactive.png";
 	}
 
 	chrome.tabs.getAllInWindow(function(tabs){

@@ -1,4 +1,4 @@
-(function($){ // SIAF with jQuery as $
+(function($){
 
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
@@ -64,7 +64,7 @@ chrome.extension.onMessage.addListener(
 );
 
 })(jQuery);
-
+// Functions below isn't using jQuery anyway...
 
 
 function vertabsClickHandler(e) {

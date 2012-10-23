@@ -14,6 +14,10 @@
 		"default_title": "Toggle Vertabs"
 	},
 
+	"web_accessible_resources": [
+		"imgs/close.png"
+	],
+
 	"background": {
 		"scripts": ["background.js"],
 		"persistent": true
@@ -21,21 +25,16 @@
 	
 	"content_scripts": [
 		{
-			"matches": ["http://*/*", "https://*/*"],
+			"matches": ["http://*/*", "https://*/*", "file://*/*"],
 			"js": ["jquery.min.js", "vertabs-injector.js"],
 			"css": ["vertabs.css"],
 			"run_at": "document_end"
 		}
 	],
 
-	"web_accessible_resources": [
-		"imgs/close.png"
-	],
-
 	"permissions": [
 		"tabs",
-		"http://*/*",
-		"https://*/*"
+		"<all_urls>"
 	],
 
 	"manifest_version": 2
