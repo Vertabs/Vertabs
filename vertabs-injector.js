@@ -29,8 +29,8 @@ chrome.extension.onMessage.addListener(
 		ul.append(newtabLi);
 
 		tabs.forEach(function(tab){
-			var li = $("<li></li>").data("tab-id", tab.id);
-
+			var li = $("<li></li>").attr("data-tab-id", tab.id);
+			
 			// This will only output favicons with normal urls. SO question: http://tinyurl.com/d857xwk
 			if(tab.favIconUrl && tab.favIconUrl.indexOf('chrome://') == -1) {
 				var favicon = $("<img />")
