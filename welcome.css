@@ -1,8 +1,8 @@
 body {
-	background: #f2efd7;
+	background: #d5e7e7;
 	font-family: Helvetica, Arial, sans-serif;
 	color: #222;
-	line-height: 1.5em;
+	line-height: 100%;
 }
 
 #wrapper {
@@ -10,15 +10,35 @@ body {
 	margin: 30px auto;
 	padding: 10px 20px;
 	background: white;
-	border: 1px solid #AAA;
-	box-shadow: 0 10px 5px -9px rgba(0,0,0, 0.3);
+	border: 1px solid #777;
+	box-shadow: 0 13px 8px -10px rgba(0,0,0, 0.4);
 }
 
 #wrapper h1 {
-	
+	font-size: 3em;
 }
 #wrapper a {
 	color: #f23a00;
+}
+#wrapper p.notice {
+	padding: 10px;
+	background: #f7f7f7;
+	border: 1px solid #CCC;
+	font: 0.9em/0.9em;
+	color: #323133;
+}
+#wrapper p.bigger {
+	font-size: 1.5em;
+}
+#wrapper ol {
+	font-size: 1.4em;
+	line-height: 150%;
+}
+#wrapper ul {
+	list-style: square;
+}
+#wrapper button {
+	padding: 10px;
 }
 
 #wrapper footer {
@@ -26,4 +46,7 @@ body {
 	border-top: 1px solid #CCC;
 	font-size: .8em;
 	color: #444;
+}
+#wrapper footer a {
+	color: #338f58;
 }
