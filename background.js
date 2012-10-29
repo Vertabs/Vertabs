@@ -1,10 +1,10 @@
 /*
 Is Vertabs 1.1 installed? Otherwise show welcome.html
 */
-if(!localStorage.getItem("vertabsInstalled1.1")) {
-	localStorage.setItem("vertabsInstalled1.1", true);
+// if(!localStorage.getItem("vertabsInstalled1.1")) {
+	localStorage.setItem("vertabsInstalled1.2", true);
 	chrome.tabs.create({url: chrome.extension.getURL("welcome.html")});
-}
+// }
 
 
 var vertabsActive = [];
