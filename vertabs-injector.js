@@ -22,6 +22,9 @@ chrome.extension.onMessage.addListener(
 			var ul = vertabs.find("ul").empty();
 		}
 
+		// Set right or left side
+		vertabs.toggleClass(options.side);
+
 		// "New tab" li element
 		var newtabLi = $("<li></li>")
 			.text("New tab")
@@ -63,15 +66,24 @@ chrome.extension.onMessage.addListener(
 		$("body").append(vertabs);
 
 		// Setting number of pixels showing
+		if(options.side == "left") {
+			var normalOffset = "0";
+			var hoveredOffset = vertabs.outerWidth() - options.pxShowing * -1;
+		} else {
+			var normalOffset = "0";
+			var hoveredOffset = (vertabs.outerWidth() - options.pxShowing) * -1;
+		}
+
+		console.log("Side: "+options.side);
+		console.log("Nonhovered: "+normalOffset+" Hovered: "+hoveredOffset);
+		
 		vertabs.mouseenter(function(){
-			vertabs.css("left", "0px");
+			vertabs.css(options.side, normalOffset+"px");
 		});
 		vertabs.mouseleave(function(){
-			var leftOffset = (vertabs.outerWidth() - options.pxShowing) * -1;
-			vertabs.css("left", leftOffset+"px");
-			console.dir("outerWidth: "+vertabs.outerWidth());
+			vertabs.css(options.side, hoveredOffset+"px");
 		});
-		vertabs.mouseout();
+		vertabs.mouseleave();
 	}
 );
 
