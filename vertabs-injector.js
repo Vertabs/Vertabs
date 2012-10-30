@@ -68,15 +68,11 @@ chrome.extension.onMessage.addListener(
 		// Setting number of pixels showing
 		if(options.side == "left") {
 			var normalOffset = "0";
-			var hoveredOffset = vertabs.outerWidth() - options.pxShowing * -1;
+			var hoveredOffset = (vertabs.outerWidth() - options.pxShowing) * -1;
 		} else {
 			var normalOffset = "0";
 			var hoveredOffset = (vertabs.outerWidth() - options.pxShowing) * -1;
-		}
-
-		console.log("Side: "+options.side);
-		console.log("Nonhovered: "+normalOffset+" Hovered: "+hoveredOffset);
-		
+		}		
 		vertabs.mouseenter(function(){
 			vertabs.css(options.side, normalOffset+"px");
 		});

@@ -1,5 +1,5 @@
 /*
-Is Vertabs 1.1 installed? Otherwise show welcome.html
+Is Vertabs 1.2 installed? Otherwise show welcome.html
 */
 if(!localStorage.getItem("vertabsInstalled1.2")) {
 	localStorage.setItem("vertabsInstalled1.2", true);
@@ -12,8 +12,8 @@ if(!localStorage.getItem("vertabsInstalled1.2")) {
 var vertabsActive = [];
 var iconPath = "imgs/icon_inactive.png";
 var options = {
-	side: localStorage.getItem("vertabs-position-side"),
-	pxShowing: localStorage.getItem("vertabs-pxs-showing")
+	side: localStorage.getItem("vertabs-position-side") || "left",
+	pxShowing: localStorage.getItem("vertabs-pxs-showing") || "10"
 };
 
 

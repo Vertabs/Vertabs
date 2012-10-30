@@ -1,10 +1,5 @@
 $(getOptions);
 
-var labels = {
-	side: 		"Position",
-	pxShowing: 	"Pixels showing when not hovered:"
-};
-
 var storage = {
 	side: "vertabs-position-side",
 	pxShowing: "vertabs-pxs-showing"
@@ -22,15 +17,18 @@ function setOptions(event) {
 }
 
 function getOptions() {
-	var sideVal = localStorage.getItem(storage.side);
-	var pxsShowingVal = localStorage.getItem(storage.pxShowing);
+	var sideVal 		= localStorage.getItem(storage.side) || "left";
+	var pxsShowingVal 	= localStorage.getItem(storage.pxShowing) || "10";
 
 
 	var section = $("#wrapper section");
 
 	// Side option
 	$("<h2></h2>")
-		.text(labels.side)
+		.text("Right or left?")
+		.appendTo(section);
+	$("<p></p>")
+		.text("Where do you want Vertabs to reside?")
 		.appendTo(section);
 	$("<select><select />")
 		.attr("id", "vertabs-side")
@@ -40,8 +38,11 @@ function getOptions() {
 		.appendTo(section);
 		
 	// Pixels showing option
+	$("<h2></h2>")
+		.text("How much Vertabs to show when not hovered")
+		.appendTo(section);
 	$("</p>")
-		.text(labels.pxShowing)
+		.text("Set the amount of pixels of Vertabs that's showing when it's not hovered.")
 		.append($("<input>")
 			.attr("type", "number")
 			.attr("id", "vertabs-pxs-showing")
