@@ -34,8 +34,8 @@ function getOptions() {
 		.appendTo(section);
 	$("<select><select />")
 		.attr("id", "vertabs-side")
-		.append($("<option />").text("Left"))
-		.append($("<option />").text("Right"))
+		.append($("<option />").text("left"))
+		.append($("<option />").text("right"))
 		.val(sideVal)
 		.appendTo(section);
 		
