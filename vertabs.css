@@ -8,7 +8,7 @@
 }
 #vertabs {
 	position: fixed;
-	left: -290px; top: 20px;
+	top: 20px; left: -300px;
 	width: 300px;
 	max-height: 600px;
 	z-index: 2147483647;
@@ -29,9 +29,6 @@
 	color: #222;
 	text-align: left;
 	text-shadow: none;
-}
-#vertabs:hover {
-	left: 0;
 }
 
 #vertabs h1 {

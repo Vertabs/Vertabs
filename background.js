@@ -1,14 +1,20 @@
 /*
 Is Vertabs 1.1 installed? Otherwise show welcome.html
 */
-// if(!localStorage.getItem("vertabsInstalled1.1")) {
+// if(!localStorage.getItem("vertabsInstalled1.2")) {
 	localStorage.setItem("vertabsInstalled1.2", true);
 	chrome.tabs.create({url: chrome.extension.getURL("welcome.html")});
 // }
 
 
+
+
 var vertabsActive = [];
 var iconPath = "imgs/icon_inactive.png";
+var options = {
+	side: localStorage.getItem("vertabs-position-side"),
+	pxShowing: localStorage.getItem("vertabs-pxs-showing")
+};
 
 
 /*
@@ -28,12 +34,24 @@ what's specified in the request object.
 */
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
+		
+		// Open new tab
 		if(request.newTab) {
 			chrome.tabs.create({});
+
+		// Switch tab
 		} else if(request.gotoTab) {
 			chrome.tabs.update(parseInt(request.gotoTab), {active:true});
+
+		// Close tab
 		} else if(request.closeTab) {
 			chrome.tabs.remove(parseInt(request.closeTab));
+		
+		// Catch options saved
+		} else if(request.storageLabels) {
+			options.side = localStorage.getItem(request.storageLabels.side);
+			options.pxShowing = localStorage.getItem(request.storageLabels.pxShowing);
+			sendTabs(); // Send all tabs again, like refreshing Vertabs options
 		}
 	}
 );
@@ -94,7 +112,7 @@ Loop thru each tab in current window and show Vertabs
 function sendTabs() {
 	chrome.tabs.getAllInWindow(function(tabs){
 		tabs.forEach(function(tab){
-			chrome.tabs.sendMessage(tab.id, {tabs: tabs});
+			chrome.tabs.sendMessage(tab.id, {tabs: tabs, options: options});
 		});
 		return true;
 	});

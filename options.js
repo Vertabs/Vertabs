@@ -17,6 +17,8 @@ function setOptions(event) {
 
 	localStorage.setItem(storage.side, newSide);
 	localStorage.setItem(storage.pxShowing, newPxs);
+
+	chrome.extension.sendMessage({storageLabels: storage});
 }
 
 function getOptions() {
@@ -29,16 +31,14 @@ function getOptions() {
 	// Side option
 	$("<h2></h2>")
 		.text(labels.side)
-		.appendTo(wrapper);
+		.appendTo(section);
 	$("<select><select />")
 		.attr("id", "vertabs-side")
 		.append($("<option />").text("Left"))
 		.append($("<option />").text("Right"))
 		.val(sideVal)
-		.appendTo(wrapper);
-
-
-
+		.appendTo(section);
+		
 	// Pixels showing option
 	$("</p>")
 		.text(labels.pxShowing)
@@ -48,7 +48,7 @@ function getOptions() {
 			.attr("min", "1")
 			.attr("max", "40")
 			.val(pxsShowingVal))
-		.appendTo(wrapper);
+		.appendTo(section);
 
 
 	// Save options on change

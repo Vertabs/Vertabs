@@ -13,37 +13,40 @@ body {
 	border: 1px solid #777;
 	box-shadow: 0 13px 8px -10px rgba(0,0,0, 0.4);
 }
-
 #wrapper h1 {
 	font-size: 3em;
 }
 #wrapper a {
 	color: #f23a00;
 }
+#wrapper section {
+	padding: 15px 0;
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+	font: 1.3em/1.5em;
+}
 #wrapper p.notice {
 	padding: 10px;
 	background: #f7f7f7;
 	border: 1px solid #CCC;
-	font: 0.9em/0.9em;
 	color: #323133;
 }
 #wrapper p.bigger {
 	font-size: 1.5em;
 }
 #wrapper ol {
-	font-size: 1.4em;
-	line-height: 150%;
+	list-style: decimal;
 }
 #wrapper ul {
 	list-style: square;
 }
-#wrapper button {
-	padding: 10px;
+
+input, select {
+	font-size: 1.5em;
 }
 
+
 #wrapper footer {
-	margin: 40px 0 0 0;
-	border-top: 1px solid #CCC;
 	font-size: .8em;
 	color: #444;
 }
