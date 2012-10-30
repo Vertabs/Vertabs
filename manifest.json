@@ -1,6 +1,6 @@
 {
 	"name": "Vertabs",
-	"version": "1.1.1",
+	"version": "1.2",
 	"description": "Vertical tabs for tab junkies.",
 
 	"icons": {
@@ -8,6 +8,8 @@
 		"48": "imgs/icon48.png",
 		"128": "imgs/icon128.png"
 	},
+
+	"options_page": "options.html",
 
 	"browser_action": {
 		"default_icon": "imgs/icon_inactive.png",

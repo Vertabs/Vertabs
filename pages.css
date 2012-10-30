@@ -1,5 +1,5 @@
 body {
-	background: #d5e7e7;
+	background: #cde4e4;
 	font-family: Helvetica, Arial, sans-serif;
 	color: #222;
 	line-height: 100%;
@@ -13,37 +13,45 @@ body {
 	border: 1px solid #777;
 	box-shadow: 0 13px 8px -10px rgba(0,0,0, 0.4);
 }
-
 #wrapper h1 {
 	font-size: 3em;
 }
 #wrapper a {
 	color: #f23a00;
 }
-#wrapper p.notice {
-	padding: 10px;
-	background: #f7f7f7;
-	border: 1px solid #CCC;
-	font: 0.9em/0.9em;
-	color: #323133;
-}
-#wrapper p.bigger {
+#wrapper header p {
 	font-size: 1.5em;
 }
+#wrapper section {
+	padding: 10px 0;
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+	font: 1.3em/1.5em;
+}
+#wrapper p.notice {
+	padding: 10px;
+	background: #a7aec0;
+	border: 1px solid #555;
+	color: #081b6e;
+	text-shadow: 0 1px 0 white;
+}
 #wrapper ol {
-	font-size: 1.4em;
-	line-height: 150%;
+	list-style: decimal;
 }
 #wrapper ul {
 	list-style: square;
 }
-#wrapper button {
-	padding: 10px;
+#wrapper li {
+	font-size: 1.3em;
+	line-height: 1.5em;
 }
 
+input, select {
+	font-size: 1.5em;
+}
+
+
 #wrapper footer {
-	margin: 40px 0 0 0;
-	border-top: 1px solid #CCC;
 	font-size: .8em;
 	color: #444;
 }

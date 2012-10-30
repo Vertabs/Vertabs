@@ -9,6 +9,7 @@ chrome.extension.onMessage.addListener(
 		}
 
 		var tabs = request.tabs;
+		var options = request.options;
 
 		if($("#vertabs").length == 0) {
 			var vertabs = $("<div></div>").attr("id", "vertabs");
@@ -20,6 +21,9 @@ chrome.extension.onMessage.addListener(
 			var vertabs = $("#vertabs");
 			var ul = vertabs.find("ul").empty();
 		}
+
+		// Set right or left side
+		vertabs.toggleClass(options.side);
 
 		// "New tab" li element
 		var newtabLi = $("<li></li>")
@@ -60,6 +64,22 @@ chrome.extension.onMessage.addListener(
 
 		vertabs.append(ul);
 		$("body").append(vertabs);
+
+		// Setting number of pixels showing
+		if(options.side == "left") {
+			var normalOffset = "0";
+			var hoveredOffset = (vertabs.outerWidth() - options.pxShowing) * -1;
+		} else {
+			var normalOffset = "0";
+			var hoveredOffset = (vertabs.outerWidth() - options.pxShowing) * -1;
+		}		
+		vertabs.mouseenter(function(){
+			vertabs.css(options.side, normalOffset+"px");
+		});
+		vertabs.mouseleave(function(){
+			vertabs.css(options.side, hoveredOffset+"px");
+		});
+		vertabs.mouseleave();
 	}
 );
 
