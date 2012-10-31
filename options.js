@@ -23,36 +23,17 @@ function getOptions() {
 
 	var section = $("#wrapper section");
 
-	// Side option
-	$("<h2></h2>")
-		.text("Right or left?")
-		.appendTo(section);
-	$("<p></p>")
-		.text("Where do you want Vertabs to reside?")
-		.appendTo(section);
-	$("<select><select />")
-		.attr("id", "vertabs-side")
-		.append($("<option />").text("left"))
-		.append($("<option />").text("right"))
-		.val(sideVal)
-		.appendTo(section);
+	// Right or left?
+	section.find("select#vertabs-side").val(sideVal);
 		
-	// Pixels showing option
-	$("<h2></h2>")
-		.text("How much Vertabs to show when not hovered")
-		.appendTo(section);
-	$("</p>")
-		.text("Set the amount of pixels of Vertabs that's showing when it's not hovered.")
-		.append($("<input>")
-			.attr("type", "number")
-			.attr("id", "vertabs-pxs-showing")
-			.attr("min", "1")
-			.attr("max", "40")
-			.val(pxsShowingVal))
-		.appendTo(section);
+	// Pixels showing when not hovered?
+	section.find("input#vertabs-pxs-showing").val(pxsShowingVal);
 
 
 	// Save options on change
-	var changeSelector = "#vertabs-side, #vertabs-pxs-showing";
+	var changeSelector = [
+		"#vertabs-side",
+		"#vertabs-pxs-showing"
+	].join(", ");
 	$(wrapper).on("change", changeSelector, setOptions);
 }

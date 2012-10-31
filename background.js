@@ -37,7 +37,7 @@ chrome.extension.onMessage.addListener(
 		
 		// Open new tab
 		if(request.newTab) {
-			chrome.tabs.create({});
+			chrome.tabs.create({url: "chrome://newtab/"});
 
 		// Switch tab
 		} else if(request.gotoTab) {
