@@ -23,7 +23,7 @@ chrome.extension.onMessage.addListener(
 		}
 
 		// Set right or left side
-		vertabs.toggleClass(options.side);
+		vertabs.addClass(options.side);
 
 		// "New tab" li element
 		var newtabLi = $("<li></li>")

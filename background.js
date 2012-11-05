@@ -37,7 +37,7 @@ chrome.extension.onMessage.addListener(
 		
 		// Open new tab
 		if(request.newTab) {
-			chrome.tabs.create({url: "chrome://newtab/"});
+			chrome.tabs.create({});
 
 		// Switch tab
 		} else if(request.gotoTab) {
@@ -51,7 +51,7 @@ chrome.extension.onMessage.addListener(
 		} else if(request.storageLabels) {
 			options.side = localStorage.getItem(request.storageLabels.side);
 			options.pxShowing = localStorage.getItem(request.storageLabels.pxShowing);
-			sendTabs(); // Send all tabs again, like refreshing Vertabs options
+			sendTabs();
 		}
 	}
 );

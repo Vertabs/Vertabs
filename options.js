@@ -20,7 +20,6 @@ function getOptions() {
 	var sideVal 		= localStorage.getItem(storage.side) || "left";
 	var pxsShowingVal 	= localStorage.getItem(storage.pxShowing) || "10";
 
-
 	var section = $("#wrapper section");
 
 	// Right or left?
@@ -28,7 +27,6 @@ function getOptions() {
 		
 	// Pixels showing when not hovered?
 	section.find("input#vertabs-pxs-showing").val(pxsShowingVal);
-
 
 	// Save options on change
 	var changeSelector = [
