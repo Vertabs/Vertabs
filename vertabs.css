@@ -32,15 +32,27 @@
 #vertabs.left {
 	left: -300px;
 }
+#vertabs.left:hover {
+	left: 0;
+}
 #vertabs.right {
 	right: -300px;
+}
+#vertabs.right:hover {
+	right: 0;
 }
 #vertabs li:first-child {
 	border-top-radius: 10px;
 }
 #vertabs li:last-child {
-	border-bottom-radius: 10px;
 	border-bottom: none;
+	border-bottom-radius: 10px;
+}
+#vertabs li:not(.vertabs-new-tab):before {
+	content: attr(data-text);
+}
+#vertabs li small:before {
+	content: attr(data-text);
 }
 
 #vertabs h1 {

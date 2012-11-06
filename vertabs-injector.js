@@ -49,12 +49,12 @@ chrome.extension.onMessage.addListener(
 
 			// Title won't be longer than 30
 			var title = (tab.title.length > 30) ? tab.title.substring(0,27)+"..." : tab.title;
-			li.append(title);
+			li.attr("data-text", title);
 			
 			// URLs won't be longer than 50
 			var url = (tab.url.length > 50) ? tab.url.substring(0,47)+"..." : tab.url;
 			li.append($("<small></small>")
-				.text(url))
+				.attr("data-text", url))
 				.appendTo(ul);
 		});
 
