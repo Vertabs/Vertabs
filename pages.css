@@ -1,5 +1,5 @@
 body {
-	background: #cde4e4;
+	background: #dedbdd;
 	font-family: Helvetica, Arial, sans-serif;
 	color: #222;
 	line-height: 100%;
@@ -30,10 +30,9 @@ body {
 }
 #wrapper p.notice {
 	padding: 10px;
-	background: #a7aec0;
-	border: 1px solid #555;
-	color: #081b6e;
-	text-shadow: 0 1px 0 white;
+	background: #f6ffdc;
+	border: 1px solid #aa9c7a;
+	color: #24445a;
 }
 #wrapper ol {
 	list-style: decimal;
@@ -44,6 +43,9 @@ body {
 #wrapper li {
 	font-size: 1.3em;
 	line-height: 1.5em;
+}
+#wrapper ul.changelog {
+	font-size: 0.7em;
 }
 
 input, select {
@@ -56,5 +58,8 @@ input, select {
 	color: #444;
 }
 #wrapper footer a {
-	color: #338f58;
+	color: #205a39;
+}
+#wrapper footer a:hover {
+	color: #379862;
 }

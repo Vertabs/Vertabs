@@ -11,7 +11,7 @@ chrome.extension.onMessage.addListener(
 		var tabs = request.tabs;
 		var options = request.options;
 
-		if($("#vertabs").length == 0) {
+		if($("#vertabs").length === 0) {
 			var vertabs = $("<div></div>").attr("id", "vertabs");
 			var ul = $("<ul></ul>");
 
@@ -42,14 +42,16 @@ chrome.extension.onMessage.addListener(
 					.appendTo(li);
 			}
 
+			// Title won't be longer than 30
+			var title = (tab.title.length > 30) ? tab.title.substring(0,27)+"..." : tab.title;
+			$("<span></span>")
+				.attr("data-text", title)
+				.appendTo(li);
+
 			var closeIcon = $("<img />")
 				.attr("src", chrome.extension.getURL("imgs/close.png"))
 				.addClass("vertabs-close-icon")
 				.appendTo(li);
-
-			// Title won't be longer than 30
-			var title = (tab.title.length > 30) ? tab.title.substring(0,27)+"..." : tab.title;
-			li.attr("data-text", title);
 			
 			// URLs won't be longer than 50
 			var url = (tab.url.length > 50) ? tab.url.substring(0,47)+"..." : tab.url;
@@ -59,7 +61,7 @@ chrome.extension.onMessage.addListener(
 		});
 
 		if(tabs.length >= 10) {
-			ul.append(newtabLi);
+			ul.append(newtabLi.clone());
 		}
 
 		vertabs.append(ul);
@@ -74,10 +76,10 @@ chrome.extension.onMessage.addListener(
 			var hoveredOffset = (vertabs.outerWidth() - options.pxShowing) * -1;
 		}		
 		vertabs.mouseenter(function(){
-			vertabs.css(options.side, normalOffset+"px");
+			// vertabs.css(options.side, normalOffset+"px");
 		});
 		vertabs.mouseleave(function(){
-			vertabs.css(options.side, hoveredOffset+"px");
+			// vertabs.css(options.side, hoveredOffset+"px");
 		});
 		vertabs.mouseleave();
 	}

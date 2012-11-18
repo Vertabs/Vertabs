@@ -1,8 +1,8 @@
 /*
 Is Vertabs 1.2 installed? Otherwise show welcome.html
 */
-if(!localStorage.getItem("vertabsInstalled1.2")) {
-	localStorage.setItem("vertabsInstalled1.2", true);
+if(!localStorage.getItem("vertabsInstalled1.2.2")) {
+	localStorage.setItem("vertabsInstalled1.2.2", true);
 	chrome.tabs.create({url: chrome.extension.getURL("welcome.html")});
 }
 
@@ -73,6 +73,14 @@ chrome.tabs.onUpdated.addListener(function(tabID, changeInfo, tab){
 		sendTabs();
 
 	chrome.browserAction.setIcon({tabId: tab.id, path: iconPath});
+});
+chrome.tabs.onMoved.addListener(function(tabID, moveInfo){
+	if(vertabsActive[moveInfo.windowId])
+		sendTabs();
+});
+chrome.tabs.onDetached.addListener(function(tabID, detachInfo){
+	if(vertabsActive[detachInfo.windowId])
+		sendTabs();
 });
 
 
