@@ -88,21 +88,24 @@ chrome.extension.onMessage.addListener(
 
 
 function vertabsClickHandler(e) {
+	var tabID;
+	var closeID;
+
 	// New tab clicked
 	if(e.target.className == "vertabs-new-tab") {
 		newTab();
 
 	// Close tab if the close icon was clicked
 	} else if(e.target.className == "vertabs-close-icon") {
-		var closeID = e.target.parentNode.getAttribute("data-tab-id");
+		closeID = e.target.parentNode.getAttribute("data-tab-id");
 		closeTab(closeID);
 
 	// Otherwise switch to clicked tab. Make sure to grab the tab id from the li element
 	} else {
 		if(e.target.nodeName == "IMG" || e.target.nodeName == "SMALL")
-			var tabID = e.target.parentNode.getAttribute("data-tab-id");
+			tabID = e.target.parentNode.getAttribute("data-tab-id");
 		else
-			var tabID = e.target.getAttribute("data-tab-id");
+			tabID = e.target.getAttribute("data-tab-id");
 
 		switchTab(tabID);
 	}
