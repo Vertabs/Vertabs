@@ -1,12 +1,13 @@
 /*
-Is Vertabs 1.2 installed? Otherwise show welcome.html
+Is Vertabs 1.3 installed? Otherwise show welcome.html
 */
-if(!localStorage.getItem("vertabsInstalled1.2.2")) {
-	localStorage.setItem("vertabsInstalled1.2.2", true);
-	chrome.tabs.create({url: chrome.extension.getURL("welcome.html")});
+var installationLabel = "vertabsInstalled"+chrome.app.getDetails().version;
+if(!localStorage.getItem(installationLabel)) {
+	localStorage.setItem(installationLabel, true);
+	chrome.tabs.create({
+		url: chrome.extension.getURL("welcome.html")
+	});
 }
-
-
 
 
 var vertabsActive = [];
@@ -29,28 +30,40 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 /*
 Receive message sent from a content script.
-Will switch tab, or close a tab, depending on
+Switch tab, or close a tab, depending on
 what's specified in the request object.
 */
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
-		
 		// Open new tab
 		if(request.newTab) {
-			chrome.tabs.create({});
+			chrome.tabs.create(
+				{}
+			);
 
 		// Switch tab
 		} else if(request.gotoTab) {
-			chrome.tabs.update(parseInt(request.gotoTab), {active:true});
+			chrome.tabs.update(
+				parseInt(request.gotoTab),
+				{ active: true }
+			);
 
 		// Close tab
 		} else if(request.closeTab) {
-			chrome.tabs.remove(parseInt(request.closeTab));
-		
+			chrome.tabs.remove(
+				parseInt(request.closeTab)
+			);
+
 		// Catch options saved
 		} else if(request.storageLabels) {
-			options.side = localStorage.getItem(request.storageLabels.side);
-			options.pxShowing = localStorage.getItem(request.storageLabels.pxShowing);
+
+			options.side = localStorage.getItem(
+				request.storageLabels.side
+			);
+			options.pxShowing = localStorage.getItem(
+				request.storageLabels.pxShowing
+			);
+
 			sendTabs();
 		}
 	}
@@ -59,7 +72,7 @@ chrome.extension.onMessage.addListener(
 
 /*
 Listen for tab events.
-Just listening for remove or create seems to be enough.
+React when removing, updating, moving or detaching tabs.
 */
 chrome.tabs.onRemoved.addListener(function(tabID, removeInfo){
 	chrome.windows.getCurrent(function(win){
@@ -90,10 +103,12 @@ that particular Chrome window.
 */
 function toggleVertabs(tab) {
 
-	if(vertabsActive[tab.windowId] == true) vertabsActive[tab.windowId] = false;
-	else vertabsActive[tab.windowId] = true;
+	if(vertabsActive[tab.windowId] === true)
+		vertabsActive[tab.windowId] = false;
+	else
+		vertabsActive[tab.windowId] = true;
 
-	if(vertabsActive[tab.windowId] == true) {
+	if(vertabsActive[tab.windowId] === true) {
 		sendTabs();
 		iconPath = "imgs/icon.png";
 	} else {
