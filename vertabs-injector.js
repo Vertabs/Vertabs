@@ -1,8 +1,6 @@
-(function($){
-
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
-		
+
 		if(request.turnOff) {
 			$("div#vertabs").remove();
 			return null;
@@ -11,21 +9,21 @@ chrome.extension.onMessage.addListener(
 		var tabs = request.tabs;
 		var options = request.options;
 
-		if($("#vertabs").length === 0) {
-			var vertabs = $("<div></div>").attr("id", "vertabs");
-			var ul = $("<ul></ul>");
+		var vertabs;
+		var ul;
 
-			// Handles all click events. Delegation.
+		if($("#vertabs").length === 0) {
+			vertabs = $("<div></div>").attr("id", "vertabs");
+			ul = $("<ul></ul>");
 			vertabs.on("click", vertabsClickHandler);
 		} else {
-			var vertabs = $("#vertabs");
-			var ul = vertabs.find("ul").empty();
+			vertabs = $("#vertabs");
+			ul = vertabs.find("ul").empty();
 		}
 
-		// Set right or left side
 		vertabs.addClass(options.side);
 
-		// "New tab" li element
+		// "New tab"
 		var newtabLi = $("<li></li>")
 			.text("New tab")
 			.addClass("vertabs-new-tab");
@@ -34,16 +32,22 @@ chrome.extension.onMessage.addListener(
 
 		tabs.forEach(function(tab){
 			var li = $("<li></li>").attr("data-tab-id", tab.id);
-			
+
 			// This will only output favicons with normal urls. SO question: http://tinyurl.com/d857xwk
 			if(tab.favIconUrl && tab.favIconUrl.indexOf('chrome://') == -1) {
+
 				var favicon = $("<img />")
 					.attr("src", tab.favIconUrl)
 					.appendTo(li);
 			}
 
-			// Title won't be longer than 30
-			var title = (tab.title.length > 30) ? tab.title.substring(0,27)+"..." : tab.title;
+			// Full title or first 30 chars of title with '...' appended
+			var title;
+			if(tab.title.length > 30)
+				title = tab.title.substring(0,27)+"...";
+			else
+				title = tab.title;
+
 			$("<span></span>")
 				.attr("data-text", title)
 				.appendTo(li);
@@ -52,41 +56,35 @@ chrome.extension.onMessage.addListener(
 				.attr("src", chrome.extension.getURL("imgs/close.png"))
 				.addClass("vertabs-close-icon")
 				.appendTo(li);
-			
-			// URLs won't be longer than 50
-			var url = (tab.url.length > 50) ? tab.url.substring(0,47)+"..." : tab.url;
-			li.append($("<small></small>")
-				.attr("data-text", url))
-				.appendTo(ul);
+
+			// Show full url or 50 first chars with '...' appended
+			var url;
+			if(tab.url.length > 50)
+				url = tab.url.substring(0, 47) + "...";
+			else
+				url = tab.url;
+
+			li.append($("<small></small>").attr("data-text", url)).appendTo(ul);
 		});
 
-		if(tabs.length >= 10) {
+		if(tabs.length >= 10)
 			ul.append(newtabLi.clone());
-		}
 
 		vertabs.append(ul);
 		$("body").append(vertabs);
 
 		// Setting number of pixels showing
+		var normalOffset;
+		var hoveredOffset;
 		if(options.side == "left") {
-			var normalOffset = "0";
-			var hoveredOffset = (vertabs.outerWidth() - options.pxShowing) * -1;
+			normalOffset = "0";
+			hoveredOffset = (vertabs.outerWidth() - options.pxShowing) * -1;
 		} else {
-			var normalOffset = "0";
-			var hoveredOffset = (vertabs.outerWidth() - options.pxShowing) * -1;
-		}		
-		vertabs.mouseenter(function(){
-			// vertabs.css(options.side, normalOffset+"px");
-		});
-		vertabs.mouseleave(function(){
-			// vertabs.css(options.side, hoveredOffset+"px");
-		});
-		vertabs.mouseleave();
+			normalOffset = "0";
+			hoveredOffset = (vertabs.outerWidth() - options.pxShowing) * -1;
+		}
 	}
 );
-
-})(jQuery);
-// Functions below isn't using jQuery anyway...
 
 
 function vertabsClickHandler(e) {
