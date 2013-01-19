@@ -1,11 +1,11 @@
 {
 	"name": "Vertabs",
 	"version": "1.3",
-	"description": "Vertical tabs for tab junkies.",
+	"description": "Vertical tabs.",
 
 	"icons": {
-		"16": "imgs/icon16.png",
-		"48": "imgs/icon48.png",
+		"16" : "imgs/icon16.png",
+		"48" : "imgs/icon48.png",
 		"128": "imgs/icon128.png"
 	},
 

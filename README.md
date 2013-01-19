@@ -1,14 +1,13 @@
-# Vertabs Chrome Extension
+# Vertabs - Chrome Extension
 
 ## Basic concept
-Use this Chrome Extension if you want an easier way of using Chrome with a lot of tabs. Put Chrome in fullscreen mode <code>Shift + Cmd + F</code> or <code>F 11</code>. You will then be able to switch tabs with Vertabs.
-
-Since Chrome Extensions don't have permission to open a new tab with the adress bar (or Omnibox) focused I'll try to find some other way. I'd like the user to simple by able to press "New tab" and then type the url. As for now, they'll have to pull down the original Chrome toolbar and manually click the adress bar and THEN type the url.
-
-## The name "Vertabs"
-An abbreviation of "vertical tabs".
+This Chrome Extension gives you an easier way of keeping track of all your tabs. Enter fullscreen with <code>Shift + Cmd + F</code> or <code>F 11</code> for the best experience.
 
 ## Future features
-* Settings like Vertabs position etc.
-* Drag 'n drop to reorder tabs
-* Pin tabs
+* Pin tabs from Vertabs
+* A few color schemes to choose from. Light, dark, blue etc.
+* Write your own CSS to style Vertabs
+* Auto-hiding Vertabs when not in fullscreen.
+
+## Get in touch with me
+If you have anything that belong in the issue tracker, please post it there. Everything else is more than welcome on [http://www.twitter.com/AntonNiklasson]

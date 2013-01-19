@@ -1,19 +1,15 @@
 #vertabs * {
 	box-sizing: border-box;
 	margin: 0; padding: 0;
-	transition: all .4s;
 	-webkit-transition: all .4s;
-	-moz-transition: all .4;
-	-o-transition: all .4s;
 }
 #vertabs {
-	position: fixed;
-	top: 25px;
 	width: 300px;
 	max-height: 500px;
+	position: fixed;
+	top: 25px;
 	z-index: 2147483647;
 	overflow-y: auto;
-	-webkit-transition: all .4s;
 	background: #DDD;
 	border: 1px solid #888;
 	box-shadow: 1px 1px 4px rgba(0,0,0, 0.3);
@@ -21,20 +17,17 @@
 	color: #222;
 	text-align: left;
 	text-shadow: none;
+	-webkit-transition: all .4s;
 	-webkit-user-select: none;
 }
 #vertabs.left {
 	left: -290px;
-	border-top-right-radius: 10px;
-	border-bottom-right-radius: 10px;
 }
 #vertabs.left:hover {
 	left: 0;
 }
 #vertabs.right {
 	right: -290px;
-	border-top-left-radius: 10px;
-	border-bottom-left-radius: 10px;
 }
 #vertabs.right:hover {
 	right: 0;
@@ -63,24 +56,13 @@
 	cursor: pointer;
 	background: #BBB;
 }
-#vertabs.left li:first-child:hover {
-	border-top-right-radius: 10px;
-}
-#vertabs.left li:last-child:hover {
-	border-bottom-right-radius: 10px;
-}
-#vertabs.right li:first-child:hover {
-	border-top-left-radius: 10px;
-}
-#vertabs.right li:last-child:hover {
-	border-bottom-left-radius: 10px;
-}
 #vertabs li.vertabs-new-tab {
+	font-size: 14px;
 	text-align: center;
-	font-size: 16px;
+	text-transform: uppercase;
 }
 #vertabs li.vertabs-new-tab:hover {
-	color: #008123;
+	color: #07459c;
 }
 #vertabs li:last-child {
 	border-bottom: none;
