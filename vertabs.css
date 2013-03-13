@@ -1,7 +1,7 @@
 #vertabs * {
 	box-sizing: border-box;
 	margin: 0; padding: 0;
-	-webkit-transition: all .4s;
+	-webkit-transition: all .2s;
 }
 #vertabs {
 	width: 300px;
@@ -54,7 +54,7 @@
 }
 #vertabs li:hover {
 	cursor: pointer;
-	background: #BBB;
+	background: #999;
 }
 #vertabs li.vertabs-new-tab {
 	font-size: 14px;
@@ -74,7 +74,7 @@
 	content: attr(data-text);
 }
 #vertabs li img {
-	width: 16px; height: 16px;
+	width: 18px; height: 18px;
 	vertical-align: bottom;
 	margin: 0 3px;
 }
@@ -82,7 +82,7 @@
 	display: block;
 	font-size: 10px;
 	word-break: break-all;
-	color: #666;
+	color: #444;
 }
 #vertabs li .vertabs-close-icon {
 	width: 13px; height: 13px;

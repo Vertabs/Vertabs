@@ -1,3 +1,9 @@
+/*
+Define these variables here to be able to save them.
+*/
+var tablist, options, vertabsnode, ulnode;
+
+
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
 
@@ -6,33 +12,33 @@ chrome.extension.onMessage.addListener(
 			return null;
 		}
 
-		var tabs 	 = request.tabs,
-			options  = request.options,
-			vertabs,
-			ul;
+		tablist	= request.tabs;
+		options	= request.options;
+
+		console.log(options);
 
 		if($("#vertabs").length === 0) {
-			vertabs = $("<div></div>").attr("id", "vertabs");
-			ul 		= $("<ul></ul>");
+			vertabsnode = $("<div></div>").attr("id", "vertabs");
+			ulnode 		= $("<ul></ul>");
 
-			vertabs.on("click", vertabsClickHandler);
-			vertabs.on("hover", function(){});
+			vertabsnode.on("click", vertabsClickHandler);
+			vertabsnode.on("hover", function(){});
 		} else {
-			vertabs = $("#vertabs");
-			ul 		= vertabs.find("ul").empty();
+			vertabsnode = $("#vertabs");
+			ulnode 		= vertabsnode.find("ul").empty();
 		}
 
-		vertabs.addClass(options.side);
+		vertabsnode.addClass(options.side);
 
 		// "New tab"
 		var newtabLi = $("<li></li>")
 						.text("New tab")
 						.addClass("vertabs-new-tab");
 
-		ul.append(newtabLi);
+		ulnode.append(newtabLi);
 
 		// Create a list item for each tab
-		tabs.forEach(function(tab){
+		tablist.forEach(function(tab){
 			var li = $("<li></li>").attr("data-tab-id", tab.id);
 
 			// This will only output favicons with normal urls. SO question: http://tinyurl.com/d857xwk
@@ -69,19 +75,19 @@ chrome.extension.onMessage.addListener(
 
 			li.append($("<small></small>")
 				.attr("data-text", url))
-				.appendTo(ul);
+				.appendTo(ulnode);
 		});
 
-		if(tabs.length >= 10)
-			ul.append(newtabLi.clone());
+		if(tablist.length >= 10)
+			ulnode.append(newtabLi.clone());
 
-		vertabs.append(ul);
+		vertabsnode.append(ulnode);
 
-		$("body").append(vertabs);
+		$("body").append(vertabsnode);
 
 		// Setting number of pixels showing
 		var normalOffset  = "0";
-		var hoveredOffset = (vertabs.outerWidth() - options.pxShowing) * -1;
+		var hoveredOffset = (vertabsnode.outerWidth() - options.pxShowing) * -1;
 	}
 );
 
@@ -112,18 +118,12 @@ function vertabsClickHandler(event) {
 	}
 }
 
-function vertabsHoverHandler(event) {
-
-}
-
 function switchTab(id) {
 	chrome.extension.sendMessage({gotoTab: id});
 }
-
 function closeTab(id) {
 	chrome.extension.sendMessage({closeTab: id});
 }
-
 function newTab() {
 	chrome.extension.sendMessage({newTab: true});
 }

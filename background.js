@@ -1,25 +1,39 @@
-/*
-Is Vertabs 1.3 installed? Otherwise show welcome.html
-*/
-var installationLabel = "vertabsInstalled"+chrome.app.getDetails().version;
-if(!localStorage.getItem(installationLabel)) {
-	localStorage.setItem(installationLabel, true);
-	chrome.tabs.create({
-		url: chrome.extension.getURL("welcome.html")
-	});
-}
+/*****
+VERTABS - Vertical Tabs for Chrome
+
+By Anton Niklasson
+http://www.antonniklasson.se
+*****/
+
+
+/* Is this the versions first run? If that's true - show welcome.html */
+var installedLabel = "vertabs"+chrome.app.getDetails().version;
+var toStore = {};
+
+chrome.storage.sync.get(installedLabel, function(item){
+
+	toStore[installedLabel] = true;
+	chrome.storage.sync.set( toStore );
+
+	chrome.tabs.create(
+		{url:chrome.extension.getURL("welcome.html")}
+	);
+
+});
 
 
 /**
-vertabsActive[] - Array to keep track of which Chrome windows have Vertabs activated.
+vertabsActive[]
+- Array to keep track of which Chrome windows have Vertabs activated.
 
-options{}		- A simple object keeping track of settings. For now just right/left and number of pixels showing.
-*/
+options{}
+- A simple object keeping track of settings. For now just right/left and number of pixels showing.
+**/
 var vertabsActive = [];
 var iconPath      = "imgs/icon_inactive.png";
 var options       = {
-	side: 		localStorage.getItem("vertabs-position-side") || "left",
-	pxShowing:  localStorage.getItem("vertabs-pxs-showing")	  || "10"
+		side: chrome.storage.sync.get("vertabs-position-side", function(){}) || "left",
+		pxShowing: chrome.storage.sync.get("vertabs-pxs-showing", function(){}) || "10"
 };
 
 
@@ -61,12 +75,8 @@ chrome.extension.onMessage.addListener(
 		// Catch options saved
 		} else if(request.storageLabels) {
 
-			options.side = localStorage.getItem(
-				request.storageLabels.side
-			);
-			options.pxShowing = localStorage.getItem(
-				request.storageLabels.pxShowing
-			);
+			options.side = chrome.storage.sync.get(request.storageLabels.side, function(){});
+			options.pxShowing = chrome.storage.sync.get(request.storageLabels.pxShowing, function(){});
 
 			sendTabs();
 		}
