@@ -7,18 +7,18 @@ http://www.antonniklasson.se
 
 
 /* Is this the versions first run? If that's true - show welcome.html */
-var installedLabel = "vertabs"+chrome.app.getDetails().version;
-var toStore = {};
+chrome.storage.sync.get("vertabs-1.3", function(object){
 
-chrome.storage.sync.get(installedLabel, function(item){
+	console.log(object['vertabs-1.3'] !== 1);
 
-	toStore[installedLabel] = true;
-	chrome.storage.sync.set( toStore );
-
-	chrome.tabs.create(
-		{url:chrome.extension.getURL("welcome.html")}
-	);
-
+	if(object['vertabs-1.3'] !== 1) {
+		// Store the "installed" state and open the welcome tab
+		chrome.storage.sync.set({"vertabs-1.3": 1}, function(){
+			chrome.tabs.create(
+				{url:chrome.extension.getURL("welcome.html")}
+			);
+		});
+	}
 });
 
 
