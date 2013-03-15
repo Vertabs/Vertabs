@@ -1,7 +1,10 @@
 /*
 Define these variables here to be able to save them.
 */
-var tablist, options, vertabsnode, ulnode;
+var tablist;
+var options;
+var vertabsnode;
+var ulnode;
 
 
 chrome.extension.onMessage.addListener(
@@ -12,10 +15,10 @@ chrome.extension.onMessage.addListener(
 			return null;
 		}
 
+
 		tablist	= request.tabs;
 		options	= request.options;
 
-		console.log(options);
 
 		if($("#vertabs").length === 0) {
 			vertabsnode = $("<div></div>").attr("id", "vertabs");
@@ -28,6 +31,8 @@ chrome.extension.onMessage.addListener(
 			ulnode 		= vertabsnode.find("ul").empty();
 		}
 
+		// Pick your side, young Padawan.
+		vertabsnode.removeClass(["left", "right"]);
 		vertabsnode.addClass(options.side);
 
 		// "New tab"
@@ -85,17 +90,19 @@ chrome.extension.onMessage.addListener(
 
 		$("body").append(vertabsnode);
 
-		// Setting number of pixels showing
-		var normalOffset  = "0";
-		var hoveredOffset = (vertabsnode.outerWidth() - options.pxShowing) * -1;
+		// Show as many pixels as set by The User
+		var hoveredOffset = (options.pxShowing - vertabsnode.outerWidth()) + 1; // Adding 1 to compensate for the 1px border.
+		var cssProps = {};
+		cssProps[options.side] = hoveredOffset;
+		vertabsnode.css(cssProps);
 	}
 );
 
 
 function vertabsClickHandler(event) {
 
-	var tabID,
-		closeID;
+	var tabID;
+	var closeID;
 
 	// New tab clicked
 	if(event.target.className == "vertabs-new-tab") {

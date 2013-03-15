@@ -37,7 +37,8 @@
 	"permissions": [
 		"tabs",
 		"<all_urls>",
-		"storage"
+		"storage",
+		"chrome://favicon/"
 	],
 
 	"manifest_version": 2

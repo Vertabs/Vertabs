@@ -6,14 +6,13 @@ http://www.antonniklasson.se
 *****/
 
 
-/* Is this the versions first run? If that's true - show welcome.html */
+// Installed or not?
 chrome.storage.sync.get("vertabs-1.3", function(object){
 
-	console.log(object['vertabs-1.3'] !== 1);
-
+	/* Vertabs 1.3 previously installed? If not, show welcome.html */
 	if(object['vertabs-1.3'] !== 1) {
-		// Store the "installed" state and open the welcome tab
 		chrome.storage.sync.set({"vertabs-1.3": 1}, function(){
+			// Save installed as state, and show welcome.html
 			chrome.tabs.create(
 				{url:chrome.extension.getURL("welcome.html")}
 			);
@@ -22,19 +21,15 @@ chrome.storage.sync.get("vertabs-1.3", function(object){
 });
 
 
-/**
-vertabsActive[]
-- Array to keep track of which Chrome windows have Vertabs activated.
-
-options{}
-- A simple object keeping track of settings. For now just right/left and number of pixels showing.
-**/
 var vertabsActive = [];
-var iconPath      = "imgs/icon_inactive.png";
-var options       = {
-		side: chrome.storage.sync.get("vertabs-position-side", function(){}) || "left",
-		pxShowing: chrome.storage.sync.get("vertabs-pxs-showing", function(){}) || "10"
-};
+var iconPath = "imgs/icon_inactive.png";
+var options = {};
+var storageLabels = ["vertabs-position-side", "vertabs-pxs-showing"];
+
+chrome.storage.sync.get(storageLabels, function(object){
+	options.side = object['vertabs-position-side'];
+	options.pxShowing = object['vertabs-pxs-showing'];
+});
 
 
 /*
@@ -49,8 +44,11 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 /*
 Receive message sent from a content script.
-Switch tab, or close a tab, depending on
-what's specified in the request object.
+Depending on what is specified in the request:
+ - Open a new tab
+ - Switch tab
+ - Close a tab
+ - React to saved options and refresh Vertabs
 */
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
@@ -66,19 +64,21 @@ chrome.extension.onMessage.addListener(
 				{active: true}
 			);
 
-		// Close tab
+		// Close given tab
 		} else if(request.closeTab) {
 			chrome.tabs.remove(
 				parseInt(request.closeTab)
 			);
 
-		// Catch options saved
+		// Options were saved
 		} else if(request.storageLabels) {
+			chrome.storage.sync.get(storageLabels, function(object){
 
-			options.side = chrome.storage.sync.get(request.storageLabels.side, function(){});
-			options.pxShowing = chrome.storage.sync.get(request.storageLabels.pxShowing, function(){});
+				options.side = object[storageLabels[0]];
+				options.pxShowing = object[storageLabels[1]];
 
-			sendTabs();
+				sendTabs();
+			});
 		}
 	}
 );
@@ -151,13 +151,18 @@ function toggleVertabs(tab) {
 }
 
 /*
-Send all tabs and options to the currently open window.
+Send out Vertabs to every tab in every window of Chrome
 */
 function sendTabs() {
-	chrome.tabs.getAllInWindow(function(tabs){
-		tabs.forEach(function(tab){
-			chrome.tabs.sendMessage(tab.id, {tabs: tabs, options: options});
+	chrome.windows.getAll({populate:true}, function(windows){
+		windows.forEach(function(window){
+			window.tabs.forEach(function(tab){
+
+				console.log("Options sent from background.js:");
+				console.dir(options);
+
+				chrome.tabs.sendMessage(tab.id, {tabs: window.tabs, options: options});
+			});
 		});
-		return true;
 	});
 }

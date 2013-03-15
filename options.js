@@ -3,37 +3,43 @@ var storageLabels = {
 	pxShowing: "vertabs-pxs-showing"
 };
 
+
 function setOptions(event) {
-	var newSide = $("#vertabs-side").val();
-	var newPxs = $("#vertabs-pxs-showing").val();
 
-	chrome.storage.sync.set({storageLabels.side: newSide});
-	chrome.storage.sync.set({storageLabels.pxShowing: newPxs});
+	var toStore = {};
+	var sideInput = $("#vertabs-side")[0];
+	var pxsShowingInput = $("#vertabs-pxs-showing")[0];
 
-	chrome.extension.sendMessage({storageLabels: storage});
+	console.dir(sideInput.value);
+	console.dir(pxsShowingInput.value);
+
+	toStore[storageLabels.side] = sideInput.value;
+	toStore[storageLabels.pxShowing] = pxsShowingInput.value;
+
+	//console.log("toStore from options.js:");
+	//console.dir(toStore);
+
+	chrome.storage.sync.set(toStore, function(){
+		chrome.extension.sendMessage({storageLabels: storageLabels});
+	});
 }
+
 
 function getOptions() {
 
-	var sideVal 		= chrome.storage.sync.get(storageLabels.side, function(){}) || "left";
-	var pxsShowingVal 	= chrome.storage.sync.get(storageLabels.pxShowing, function(){}) || "10";
+	var sideInput = $("#wrapper select#vertabs-side")
+		.on("change", setOptions);
+	var pxsInput = $("#wrapper input#vertabs-pxs-showing")
+		.on("change", setOptions);
 
-	console.log("Current side : "+sideVal);
+	var getLabels = [storageLabels.side, storageLabels.pxShowing];
+	chrome.storage.sync.get(getLabels, function(object){
+		sideVal = object[storageLabels.side];
+		pxsShowingVal = object[storageLabels.pxShowing];
 
-	var section = $("#wrapper section");
-
-	// Right or left?
-	section.find("select#vertabs-side").val(sideVal);
-
-	// Pixels showing when not hovered?
-	section.find("input#vertabs-pxs-showing").val(pxsShowingVal);
-
-	// Save options on change
-	var changeSelector = [
-		"#vertabs-side",
-		"#vertabs-pxs-showing"
-	].join(", ");
-	$(wrapper).on("change", changeSelector, setOptions);
+		if(sideVal != undefined) sideInput.val(sideVal);
+		if(pxsShowingVal != undefined) pxsInput.val(pxsShowingVal);
+	});
 }
 
 
