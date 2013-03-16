@@ -1,26 +1,41 @@
-/*
-Is Vertabs 1.2 installed? Otherwise show welcome.html
-*/
-if(!localStorage.getItem("vertabsInstalled1.2.2")) {
-	localStorage.setItem("vertabsInstalled1.2.2", true);
-	chrome.tabs.create({url: chrome.extension.getURL("welcome.html")});
-}
+/*****
+VERTABS - Vertical Tabs for Chrome
+
+By Anton Niklasson
+http://www.antonniklasson.se
+*****/
 
 
+// Installed or not?
+chrome.storage.sync.get("vertabs-installed", function(object){
+
+	/* Vertabs 1.3 previously installed? If not, show welcome.html */
+	if(object['vertabs-installed'] !== 1) {
+		chrome.storage.sync.set({"vertabs-installed": 1}, function(){
+			// Save installed as state, and show welcome.html
+			chrome.tabs.create(
+				{url:chrome.extension.getURL("welcome.html")}
+			);
+		});
+	}
+});
 
 
 var vertabsActive = [];
 var iconPath = "imgs/icon_inactive.png";
-var options = {
-	side: localStorage.getItem("vertabs-position-side") || "left",
-	pxShowing: localStorage.getItem("vertabs-pxs-showing") || "10"
-};
+var options = {};
+var storageLabels = ["vertabs-position-side", "vertabs-pxs-showing"];
+
+chrome.storage.sync.get(storageLabels, function(object){
+	options.side = object['vertabs-position-side'];
+	options.pxShowing = object['vertabs-pxs-showing'];
+});
 
 
 /*
 Pushing the Chrome toolbar button toggles Vertabs in that window.
 Users can have multiple Chrome windows, and therefore Vertabs
-active in some of them, and inactive in some of them.
+activated in some of them.
 */
 chrome.browserAction.onClicked.addListener(function(tab) {
 	toggleVertabs(tab);
@@ -29,29 +44,41 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 /*
 Receive message sent from a content script.
-Will switch tab, or close a tab, depending on
-what's specified in the request object.
+Depending on what is specified in the request:
+ - Open a new tab
+ - Switch tab
+ - Close a tab
+ - React to saved options and refresh Vertabs
 */
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
-		
+
 		// Open new tab
 		if(request.newTab) {
 			chrome.tabs.create({});
 
 		// Switch tab
 		} else if(request.gotoTab) {
-			chrome.tabs.update(parseInt(request.gotoTab), {active:true});
+			chrome.tabs.update(
+				parseInt(request.gotoTab),
+				{active: true}
+			);
 
-		// Close tab
+		// Close given tab
 		} else if(request.closeTab) {
-			chrome.tabs.remove(parseInt(request.closeTab));
-		
-		// Catch options saved
+			chrome.tabs.remove(
+				parseInt(request.closeTab)
+			);
+
+		// Options were saved
 		} else if(request.storageLabels) {
-			options.side = localStorage.getItem(request.storageLabels.side);
-			options.pxShowing = localStorage.getItem(request.storageLabels.pxShowing);
-			sendTabs();
+			chrome.storage.sync.get(storageLabels, function(object){
+
+				options.side = object[storageLabels[0]];
+				options.pxShowing = object[storageLabels[1]];
+
+				sendTabs();
+			});
 		}
 	}
 );
@@ -59,7 +86,12 @@ chrome.extension.onMessage.addListener(
 
 /*
 Listen for tab events.
-Just listening for remove or create seems to be enough.
+Upadte Vertabs when...
+	- Closing
+	- Updating
+	- Moving
+	- Detaching
+tabs.
 */
 chrome.tabs.onRemoved.addListener(function(tabID, removeInfo){
 	chrome.windows.getCurrent(function(win){
@@ -86,14 +118,17 @@ chrome.tabs.onDetached.addListener(function(tabID, detachInfo){
 
 /*
 Clicking the browserAction toggles Vertabs on and off in
-that particular Chrome window.
+that particular window. It also toggles between "active"/"inactive" icon.
 */
 function toggleVertabs(tab) {
 
-	if(vertabsActive[tab.windowId] == true) vertabsActive[tab.windowId] = false;
-	else vertabsActive[tab.windowId] = true;
+	if(vertabsActive[tab.windowId] === true) {
+		vertabsActive[tab.windowId] = false;
+	} else {
+		vertabsActive[tab.windowId] = true;
+	}
 
-	if(vertabsActive[tab.windowId] == true) {
+	if(vertabsActive[tab.windowId] === true) {
 		sendTabs();
 		iconPath = "imgs/icon.png";
 	} else {
@@ -103,6 +138,7 @@ function toggleVertabs(tab) {
 			});
 			return true;
 		});
+
 		iconPath = "imgs/icon_inactive.png";
 	}
 
@@ -115,13 +151,18 @@ function toggleVertabs(tab) {
 }
 
 /*
-Loop thru each tab in current window and show Vertabs
+Send out Vertabs to every tab in every window of Chrome
 */
 function sendTabs() {
-	chrome.tabs.getAllInWindow(function(tabs){
-		tabs.forEach(function(tab){
-			chrome.tabs.sendMessage(tab.id, {tabs: tabs, options: options});
+	chrome.windows.getAll({populate:true}, function(windows){
+		windows.forEach(function(window){
+			window.tabs.forEach(function(tab){
+
+				console.log("Options sent from background.js:");
+				console.dir(options);
+
+				chrome.tabs.sendMessage(tab.id, {tabs: window.tabs, options: options});
+			});
 		});
-		return true;
 	});
 }

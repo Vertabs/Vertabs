@@ -1,119 +1,137 @@
-(function($){
+/*
+Define these variables here to be able to save them.
+*/
+var tablist;
+var options;
+var vertabsnode;
+var ulnode;
+
 
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
-		
+
 		if(request.turnOff) {
 			$("div#vertabs").remove();
 			return null;
 		}
 
-		var tabs = request.tabs;
-		var options = request.options;
+
+		tablist	= request.tabs;
+		options	= request.options;
+
 
 		if($("#vertabs").length === 0) {
-			var vertabs = $("<div></div>").attr("id", "vertabs");
-			var ul = $("<ul></ul>");
+			vertabsnode = $("<div></div>").attr("id", "vertabs");
+			ulnode 		= $("<ul></ul>");
 
-			// Handles all click events. Delegation.
-			vertabs.on("click", vertabsClickHandler);
+			vertabsnode.on("click", vertabsClickHandler);
+			vertabsnode.on("hover", function(){});
 		} else {
-			var vertabs = $("#vertabs");
-			var ul = vertabs.find("ul").empty();
+			vertabsnode = $("#vertabs");
+			ulnode 		= vertabsnode.find("ul").empty();
 		}
 
-		// Set right or left side
-		vertabs.addClass(options.side);
+		// Pick your side, young Padawan.
+		vertabsnode.removeClass(["left", "right"]);
+		vertabsnode.addClass(options.side);
 
-		// "New tab" li element
+		// "New tab"
 		var newtabLi = $("<li></li>")
-			.text("New tab")
-			.addClass("vertabs-new-tab");
+						.text("+")
+						.addClass("vertabs-new-tab");
 
-		ul.append(newtabLi);
+		ulnode.append(newtabLi);
 
-		tabs.forEach(function(tab){
+		// Create a list item for each tab
+		tablist.forEach(function(tab){
 			var li = $("<li></li>").attr("data-tab-id", tab.id);
-			
+
 			// This will only output favicons with normal urls. SO question: http://tinyurl.com/d857xwk
 			if(tab.favIconUrl && tab.favIconUrl.indexOf('chrome://') == -1) {
 				var favicon = $("<img />")
-					.attr("src", tab.favIconUrl)
-					.appendTo(li);
+								.attr("src", tab.favIconUrl)
+								.appendTo(li);
 			}
 
-			// Title won't be longer than 30
-			var title = (tab.title.length > 30) ? tab.title.substring(0,27)+"..." : tab.title;
+			// Shorten the tab title if it's toooo long.
+			var title;
+			if(tab.title.length > 35) {
+				title = tab.title.substring(0,32)+"...";
+			} else {
+				title = tab.title;
+			}
+
+			console.log(title.length);
+
 			$("<span></span>")
 				.attr("data-text", title)
 				.appendTo(li);
 
 			var closeIcon = $("<img />")
-				.attr("src", chrome.extension.getURL("imgs/close.png"))
-				.addClass("vertabs-close-icon")
-				.appendTo(li);
-			
-			// URLs won't be longer than 50
-			var url = (tab.url.length > 50) ? tab.url.substring(0,47)+"..." : tab.url;
+							.attr("src", chrome.extension.getURL("imgs/close.png"))
+							.addClass("vertabs-close-icon")
+							.appendTo(li);
+
+			// Show full url or 47 first chars with '...' appended
+			var url;
+			if(tab.url.length > 50) {
+				url = tab.url.substring(0, 47) + "...";
+			} else {
+				url = tab.url;
+			}
+
 			li.append($("<small></small>")
 				.attr("data-text", url))
-				.appendTo(ul);
+				.appendTo(ulnode);
 		});
 
-		if(tabs.length >= 10) {
-			ul.append(newtabLi.clone());
-		}
+		if(tablist.length >= 10)
+			ulnode.append(newtabLi.clone());
 
-		vertabs.append(ul);
-		$("body").append(vertabs);
+		vertabsnode.append(ulnode);
 
-		// Setting number of pixels showing
-		if(options.side == "left") {
-			var normalOffset = "0";
-			var hoveredOffset = (vertabs.outerWidth() - options.pxShowing) * -1;
-		} else {
-			var normalOffset = "0";
-			var hoveredOffset = (vertabs.outerWidth() - options.pxShowing) * -1;
-		}		
-		vertabs.mouseenter(function(){
-			// vertabs.css(options.side, normalOffset+"px");
-		});
-		vertabs.mouseleave(function(){
-			// vertabs.css(options.side, hoveredOffset+"px");
-		});
-		vertabs.mouseleave();
+		$("body").append(vertabsnode);
+
+		// Show as many pixels as set by The User
+		var hoveredOffset = (options.pxShowing - vertabsnode.outerWidth()) + 1; // Adding 1 to compensate for the 1px border.
+		var cssProps = {};
+		cssProps[options.side] = hoveredOffset;
+		vertabsnode.css(cssProps);
 	}
 );
 
-})(jQuery);
-// Functions below isn't using jQuery anyway...
 
+function vertabsClickHandler(event) {
 
-function vertabsClickHandler(e) {
+	var tabID;
+	var closeID;
+
 	// New tab clicked
-	if(e.target.className == "vertabs-new-tab") {
+	if(event.target.className == "vertabs-new-tab") {
 		newTab();
 
 	// Close tab if the close icon was clicked
-	} else if(e.target.className == "vertabs-close-icon") {
-		var closeID = e.target.parentNode.getAttribute("data-tab-id");
+	} else if(event.target.className == "vertabs-close-icon") {
+		closeID = event.target.parentNode.getAttribute("data-tab-id");
 		closeTab(closeID);
 
-	// Otherwise switch to clicked tab. Make sure to grab the tab id from the li element
+	// Otherwise switch to clicked tab. Grab the tab id from the li element.
 	} else {
-		if(e.target.nodeName == "IMG" || e.target.nodeName == "SMALL")
-			var tabID = e.target.parentNode.getAttribute("data-tab-id");
-		else
-			var tabID = e.target.getAttribute("data-tab-id");
+		if(event.target.nodeName == "IMG" || event.target.nodeName == "SMALL") {
+			tabID = event.target.parentNode.getAttribute("data-tab-id");
+		} else {
+			tabID = event.target.getAttribute("data-tab-id");
+		}
 
 		switchTab(tabID);
 	}
 }
-function switchTab(tabID) {
-	chrome.extension.sendMessage({gotoTab: tabID});
+
+function switchTab(id) {
+	chrome.extension.sendMessage({gotoTab: id});
 }
-function closeTab(tabID) {
-	chrome.extension.sendMessage({closeTab: tabID});
+function closeTab(id) {
+	chrome.extension.sendMessage({closeTab: id});
 }
 function newTab() {
 	chrome.extension.sendMessage({newTab: true});

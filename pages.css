@@ -1,8 +1,8 @@
 body {
-	background: #dedbdd;
+	background: #91e37c;
 	font-family: Helvetica, Arial, sans-serif;
 	color: #222;
-	line-height: 100%;
+	line-height: 1em;
 }
 
 #wrapper {
@@ -29,10 +29,11 @@ body {
 	font: 1.3em/1.5em;
 }
 #wrapper p.notice {
-	padding: 10px;
-	background: #f6ffdc;
-	border: 1px solid #aa9c7a;
-	color: #24445a;
+	padding: 15px 10px;
+	background: #fcffb8;
+	border: 1px solid #544d2e;
+	border-radius: 3px;
+	color: #422c19;
 }
 #wrapper ol {
 	list-style: decimal;

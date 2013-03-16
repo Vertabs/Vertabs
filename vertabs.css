@@ -1,58 +1,48 @@
-#vertabs * {
+#vertbabs, #vertabs * {
 	box-sizing: border-box;
 	margin: 0; padding: 0;
-	transition: all .4s;
-	-webkit-transition: all .4s;
-	-moz-transition: all .4;
-	-o-transition: all .4s;
+	-webkit-transition: all .2s;
 }
 #vertabs {
-	position: fixed;
-	top: 25px;
 	width: 300px;
 	max-height: 500px;
+	position: fixed;
+	top: 35px;
 	z-index: 2147483647;
 	overflow-y: auto;
-	-webkit-transition: all .4s;
-	background: #DDD;
-	border: 1px solid #888;
-	box-shadow: 1px 1px 4px rgba(0,0,0, 0.3);
+	background: #EEEEEE;
+	border: 1px solid #666666;
+	box-shadow: 0 2px 5px rgba(0,0,0, 0.4);
 	font-family: Helvetica, Arial, sans-serif;
-	color: #222;
+	font-size: 15px;
+	color: #111111;
 	text-align: left;
-	text-shadow: none;
+	text-shadow: 1px 1px 0 #DDD;
+	-webkit-transition: all .4s;
 	-webkit-user-select: none;
 }
 #vertabs.left {
 	left: -290px;
-	border-top-right-radius: 10px;
-	border-bottom-right-radius: 10px;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
 }
-#vertabs.left:hover {
-	left: 0;
+#vertabs.left[style]:hover {
+	left: 0 !important;
 }
 #vertabs.right {
 	right: -290px;
-	border-top-left-radius: 10px;
-	border-bottom-left-radius: 10px;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
 }
-#vertabs.right:hover {
-	right: 0;
-}
-#vertabs h1 {
-	margin: 0 0 20px 0;
-	font-size: 12px;
-	font-family: sans-serif;
-	text-transform: uppercase;
-	color: #666;
-	text-shadow: none;
+#vertabs.right[style]:hover {
+	right: 0 !important;
 }
 #vertabs ul {
 	list-style: none;
 }
 #vertabs li {
 	overflow: hidden;
-	padding: 5px 10px;
+	padding: 9px 5px;
 	border-bottom: 1px solid #AAA;
 	font-size: 14px;
 	font-weight: bold;
@@ -61,26 +51,15 @@
 }
 #vertabs li:hover {
 	cursor: pointer;
-	background: #BBB;
-}
-#vertabs.left li:first-child:hover {
-	border-top-right-radius: 10px;
-}
-#vertabs.left li:last-child:hover {
-	border-bottom-right-radius: 10px;
-}
-#vertabs.right li:first-child:hover {
-	border-top-left-radius: 10px;
-}
-#vertabs.right li:last-child:hover {
-	border-bottom-left-radius: 10px;
+	background: #DDDDDD;
+	box-shadow: 0 0 7px #555555 inset;
 }
 #vertabs li.vertabs-new-tab {
+	font-size: 1.2em;
 	text-align: center;
-	font-size: 16px;
 }
 #vertabs li.vertabs-new-tab:hover {
-	color: #008123;
+	color: #111;
 }
 #vertabs li:last-child {
 	border-bottom: none;
@@ -92,17 +71,19 @@
 	content: attr(data-text);
 }
 #vertabs li img {
-	width: 16px; height: 16px;
+	width: 14px; height: 14px;
 	vertical-align: bottom;
-	margin: 0 3px;
+	margin: 0 4px 0 0;
 }
 #vertabs li small {
 	display: block;
-	font-size: 10px;
+	margin-top: 4px;
+	font-size: 0.85em;
 	word-break: break-all;
 	color: #666;
+	text-shadow: none;
 }
 #vertabs li .vertabs-close-icon {
-	width: 13px; height: 13px;
+	width: 14px; height: 14px;
 	float: right;
 }
