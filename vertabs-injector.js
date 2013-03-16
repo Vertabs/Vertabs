@@ -37,7 +37,7 @@ chrome.extension.onMessage.addListener(
 
 		// "New tab"
 		var newtabLi = $("<li></li>")
-						.text("New tab")
+						.text("+")
 						.addClass("vertabs-new-tab");
 
 		ulnode.append(newtabLi);
@@ -53,13 +53,15 @@ chrome.extension.onMessage.addListener(
 								.appendTo(li);
 			}
 
-			// Full title or first 27 chars of title with '...' appended
+			// Shorten the tab title if it's toooo long.
 			var title;
-			if(tab.title.length > 30) {
-				title = tab.title.substring(0,27)+"...";
+			if(tab.title.length > 35) {
+				title = tab.title.substring(0,32)+"...";
 			} else {
 				title = tab.title;
 			}
+
+			console.log(title.length);
 
 			$("<span></span>")
 				.attr("data-text", title)

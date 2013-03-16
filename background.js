@@ -7,11 +7,11 @@ http://www.antonniklasson.se
 
 
 // Installed or not?
-chrome.storage.sync.get("vertabs-1.3", function(object){
+chrome.storage.sync.get("vertabs-installed", function(object){
 
 	/* Vertabs 1.3 previously installed? If not, show welcome.html */
-	if(object['vertabs-1.3'] !== 1) {
-		chrome.storage.sync.set({"vertabs-1.3": 1}, function(){
+	if(object['vertabs-installed'] !== 1) {
+		chrome.storage.sync.set({"vertabs-installed": 1}, function(){
 			// Save installed as state, and show welcome.html
 			chrome.tabs.create(
 				{url:chrome.extension.getURL("welcome.html")}
