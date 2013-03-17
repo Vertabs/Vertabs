@@ -157,10 +157,6 @@ function sendTabs() {
 	chrome.windows.getAll({populate:true}, function(windows){
 		windows.forEach(function(window){
 			window.tabs.forEach(function(tab){
-
-				console.log("Options sent from background.js:");
-				console.dir(options);
-
 				chrome.tabs.sendMessage(tab.id, {tabs: window.tabs, options: options});
 			});
 		});
