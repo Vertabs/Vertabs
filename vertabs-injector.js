@@ -19,6 +19,9 @@ chrome.extension.onMessage.addListener(
 		tablist	= request.tabs;
 		options	= request.options;
 
+		// Make sure there's some default options set
+		options.side = (options.side === undefined) ? "left" : options.side;
+		options.pxShowing = (options.pxShowing === undefined) ? "10" : options.pxShowing;
 
 		if($("#vertabs").length === 0) {
 			vertabsnode = $("<div></div>").attr("id", "vertabs");
@@ -61,8 +64,6 @@ chrome.extension.onMessage.addListener(
 				title = tab.title;
 			}
 
-			console.log(title.length);
-
 			$("<span></span>")
 				.attr("data-text", title)
 				.appendTo(li);
@@ -91,6 +92,7 @@ chrome.extension.onMessage.addListener(
 		vertabsnode.append(ulnode);
 
 		$("body").append(vertabsnode);
+
 
 		// Show as many pixels as set by The User
 		var hoveredOffset = (options.pxShowing - vertabsnode.outerWidth()) + 1; // Adding 1 to compensate for the 1px border.
