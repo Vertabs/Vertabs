@@ -1,16 +1,14 @@
 body {
-	background: #91e37c;
+	background: white;
 	font-family: Helvetica, Arial, sans-serif;
 	color: #222;
+	font-size: 15px;
 	line-height: 1em;
 }
 
 #wrapper {
-	width: 800px;
-	margin: 30px auto;
-	padding: 10px 20px;
-	background: white;
-	border: 1px solid #777;
+	width: 50%;
+	margin: 2em 1em;
 	box-shadow: 0 13px 8px -10px rgba(0,0,0, 0.4);
 }
 #wrapper h1 {
