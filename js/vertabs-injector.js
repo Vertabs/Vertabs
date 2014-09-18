@@ -15,7 +15,6 @@ chrome.extension.onMessage.addListener(
 			return null;
 		}
 
-
 		tablist	= request.tabs;
 		options	= request.options;
 

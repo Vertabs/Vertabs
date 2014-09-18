@@ -16,9 +16,6 @@ function setOptions(event) {
 	toStore[storageLabels.side] = sideInput.value;
 	toStore[storageLabels.pxShowing] = pxsShowingInput.value;
 
-	//console.log("toStore from options.js:");
-	//console.dir(toStore);
-
 	chrome.storage.sync.set(toStore, function(){
 		chrome.extension.sendMessage({storageLabels: storageLabels});
 	});

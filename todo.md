@@ -1,0 +1,5 @@
+- Jquery om inte redan laddat av aktuella sidan
+- Autostart
+- Pin tabs
+- background.js mer som en Mediator. Klasser som gör en sak bra?
+- options.js: Dela ut i klasser? Decoupling mot markupen

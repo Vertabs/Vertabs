@@ -3,7 +3,6 @@
 * @author: Anton Niklasson, http://antonniklasson.se
 **/
 
-
 var activeWindows = [];
 var iconPath = "imgs/icon_inactive.png";
 var options = {};
@@ -11,13 +10,13 @@ var storageLabels = ["vertabs-position-side", "vertabs-pxs-showing"];
 
 // Installed or not?
 chrome.storage.sync.get("vertabs-installed", function(object){
-	/* Vertabs 1.3 previously installed? If not, show welcome.html */
+	// Vertabs 1.3 previously installed? If not, show welcome.html
 	if(object['vertabs-installed'] !== 1) {
 		chrome.storage.sync.set({"vertabs-installed": 1}, function(){
 			// Save installed as state, and show welcome.html
-			chrome.tabs.create(
-				{url:chrome.extension.getURL("welcome.html")}
-			);
+			chrome.tabs.create({
+				url: chrome.extension.getURL("pages/welcome.html")
+			});
 		});
 	}
 });
@@ -28,24 +27,25 @@ chrome.storage.sync.get(storageLabels, function(object){
 });
 
 
-/*
-Pushing the Chrome toolbar button toggles Vertabs in that window.
-Users can have multiple Chrome windows, and therefore Vertabs
-activated in some of them.
-*/
+/**
+ * Pushing the Chrome toolbar button toggles Vertabs in that window.
+ * Users can have multiple Chrome windows, and therefore Vertabs
+ * activated in some of them.
+ */
 chrome.browserAction.onClicked.addListener(function(tab) {
 	toggleVertabs(tab);
 });
 
 
-/*
-Receive message sent from a content script.
-Depending on what is specified in the request:
- - Open a new tab
- - Switch tab
- - Close a tab
- - React to saved options and refresh Vertabs
-*/
+/**
+ * Receive message sent from a content script.
+ *
+ * Depending on what is specified in the request:
+ * 1. Open a new tab
+ * 2. Switch tab
+ * 3. Close a tab
+ * 4. React to saved options and refresh Vertabs
+ */
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
 
@@ -60,7 +60,7 @@ chrome.extension.onMessage.addListener(
 				{active: true}
 			);
 
-		// Close given tab
+		// Close tab
 		} else if(request.closeTab) {
 			chrome.tabs.remove(
 				parseInt(request.closeTab)
@@ -80,15 +80,14 @@ chrome.extension.onMessage.addListener(
 );
 
 
-/*
-Listen for tab events.
-Upadte Vertabs when...
-	- Closing
-	- Updating
-	- Moving
-	- Detaching
-tabs.
-*/
+/**
+ * Listen for tab events.
+ * Upadte Vertabs when...
+ * - Closing
+ * - Updating
+ * - Moving
+ * - Detaching
+ */
 chrome.tabs.onRemoved.addListener(function(tabID, removeInfo){
 	chrome.windows.getCurrent(function(win){
 		if(activeWindows[win.id]) {
