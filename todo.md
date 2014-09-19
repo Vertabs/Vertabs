@@ -3,3 +3,5 @@
 - Pin tabs
 - background.js mer som en Mediator. Klasser som gör en sak bra?
 - options.js: Dela ut i klasser? Decoupling mot markupen
+- Teman på Vertabs. Separata css-filer?
+- Fixa "browser action"-ikonen. Centrera?

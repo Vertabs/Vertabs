@@ -1,4 +1,4 @@
-# Vertabs
+# Vertabs for Chrome
 
 Vertical tabs in Chrome. Preferably used in full screen mode.
 
